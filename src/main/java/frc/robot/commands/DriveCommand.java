@@ -1,0 +1,74 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.subsystems.DriveController;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.NavSubsystem;
+
+import java.util.Date;
+
+public class DriveCommand extends Command {
+  private DriveSubsystem m_driveSubsystem;
+  private NavSubsystem m_NavSubsystem;
+  private DriveController m_dc;
+  private long m_lastUpdate;
+  private final int MOTOR_UPDATE_FREQUENCY = 10;  // msec
+  private SwerveModuleState desiredMovement;
+  private int simControl;
+  private int i;
+
+  /** Creates a new DriveCommand. */
+  public DriveCommand(DriveController dc, DriveSubsystem driveSubsystem) {
+    m_dc = dc;
+    m_driveSubsystem = driveSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_dc);
+    addRequirements(m_driveSubsystem);
+    desiredMovement = new SwerveModuleState(0.0, new Rotation2d(0.0));
+    simControl = 0;
+    i=0;
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double angle;
+    double throttle;
+
+    Rotation2d ang;
+    
+    angle = m_dc.getDesiredAngle() /*+ NavSubsystem.getFieldAngleOffset()*/;
+    throttle = m_dc.getDesiredThrottle() * 1.0;
+    SmartDashboard.putNumber("DesiredThrottle (m/s)", throttle);
+    
+    //desiredMovement = new SwerveModuleState(throttle, Rotation2d.fromDegrees(angle));
+    ang = new Rotation2d(m_dc.getDesiredVX(), m_dc.getDesiredVY());
+    desiredMovement = new SwerveModuleState(throttle, ang);
+    SmartDashboard.putNumber("Desired Angle (deg)", ang.getDegrees());
+    
+    m_driveSubsystem.setDesiredSwerveState(desiredMovement, m_dc.getRotation(), NavSubsystem.getFieldAngle());
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
