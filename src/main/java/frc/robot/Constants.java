@@ -27,7 +27,18 @@ public class Constants {
     *   public static final int kRightMotor1Port = 2;
     *   public static final int kRightMotor2Port = 3; 
     * }
-    */ 
+    */
+    
+    // Swerve CAN IDs
+    public static final int FL_D_ID = 2;
+    public static final int FL_S_ID = 3;
+    public static final int FR_D_ID = 4;
+    public static final int FR_S_ID = 5;
+    public static final int RL_D_ID = 6;
+    public static final int RL_S_ID = 7;
+    public static final int RR_D_ID = 8;
+    public static final int RR_S_ID = 9;
+
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
     public static final double MAX_VELOCITY = 0.5; // for the chassis, meters per second

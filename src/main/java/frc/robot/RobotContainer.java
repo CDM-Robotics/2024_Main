@@ -36,10 +36,10 @@ public class RobotContainer {
         m_navSubsystem.setDefaultCommand(m_navCommand);
 
         // Define the 4 Swerve Assemblies
-        frontLeft = new SwerveAssembly("Front Left", 2, 3, false, Constants.WHEEL_OFFSET_X, Constants.WHEEL_OFFSET_Y, Constants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
-        frontRight = new SwerveAssembly("Front Right", 4, 5, false, Constants.WHEEL_OFFSET_X, -Constants.WHEEL_OFFSET_Y, Constants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
-        rearLeft = new SwerveAssembly("Rear Left", 8, 9, false, -Constants.WHEEL_OFFSET_X, Constants.WHEEL_OFFSET_Y,Constants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
-        rearRight = new SwerveAssembly("Rear Right", 6, 7, false, -Constants.WHEEL_OFFSET_X, -Constants.WHEEL_OFFSET_Y, Constants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
+        frontLeft = new SwerveAssembly("Front Left", Constants.FL_S_ID, Constants.FL_D_ID, false, Constants.WHEEL_OFFSET_X, Constants.WHEEL_OFFSET_Y, Constants.FRONT_LEFT_CHASSIS_ANGULAR_OFFSET);
+        frontRight = new SwerveAssembly("Front Right", Constants.FR_S_ID, Constants.FR_D_ID, false, Constants.WHEEL_OFFSET_X, -Constants.WHEEL_OFFSET_Y, Constants.FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET);
+        rearLeft = new SwerveAssembly("Rear Left", Constants.RL_S_ID, Constants.RL_D_ID, false, -Constants.WHEEL_OFFSET_X, Constants.WHEEL_OFFSET_Y,Constants.BACK_LEFT_CHASSIS_ANGULAR_OFFSET);
+        rearRight = new SwerveAssembly("Rear Right", Constants.RR_S_ID, Constants.RR_D_ID, false, -Constants.WHEEL_OFFSET_X, -Constants.WHEEL_OFFSET_Y, Constants.BACK_RIGHT_CHASSIS_ANGULAR_OFFSET);
         swerves = new ArrayList<SwerveAssembly>();
         swerves.add(frontLeft);
         swerves.add(frontRight);

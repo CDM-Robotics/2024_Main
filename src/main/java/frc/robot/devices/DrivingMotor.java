@@ -6,7 +6,7 @@ package frc.robot.devices;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 
 import frc.robot.exceptions.MotorSetupException;
 import frc.robot.Constants;
@@ -14,7 +14,7 @@ import frc.robot.Constants;
 /** Add your docs here. */
 public class DrivingMotor extends CANSparkMax {
     private final RelativeEncoder m_drivingEncoder;
-    private final SparkMaxPIDController m_drivingPIDController;
+    private final SparkPIDController m_drivingPIDController;
 
     private int myID;
 
