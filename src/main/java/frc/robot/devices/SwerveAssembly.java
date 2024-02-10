@@ -5,6 +5,7 @@
 package frc.robot.devices;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.exceptions.MotorSetupException;
@@ -61,4 +62,12 @@ public class SwerveAssembly {
     public String getPrettyName() {
         return m_prettyName;
     }
+
+    public SwerveModulePosition getPosition() {
+    // Apply chassis angular offset to the encoder position to get the position
+    // relative to the chassis.
+    return new SwerveModulePosition(
+        m_driveMotor.getPosition(),
+        new Rotation2d(m_steeringMotor.getPosition() - m_chassisAngularOffset));
+  }
 }

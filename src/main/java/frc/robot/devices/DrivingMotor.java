@@ -54,4 +54,8 @@ public class DrivingMotor extends CANSparkMax {
         return m_drivingEncoder.getVelocity();
     }
 
+    public double getPosition() {
+        return m_drivingEncoder.getPosition();
+    }
+
 }

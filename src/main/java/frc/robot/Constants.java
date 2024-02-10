@@ -11,6 +11,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -27,25 +30,14 @@ public class Constants {
     *   public static final int kRightMotor1Port = 2;
     *   public static final int kRightMotor2Port = 3; 
     * }
-    */
-    
-    // Swerve CAN IDs
-    public static final int FL_D_ID = 2;
-    public static final int FL_S_ID = 3;
-    public static final int FR_D_ID = 4;
-    public static final int FR_S_ID = 5;
-    public static final int RL_D_ID = 6;
-    public static final int RL_S_ID = 7;
-    public static final int RR_D_ID = 8;
-    public static final int RR_S_ID = 9;
-
+    */ 
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
     public static final double MAX_VELOCITY = 0.5; // for the chassis, meters per second
     public static final double MAX_WHEEL_VELOCITY = 3.0; // for any wheel, meters per second
 
-    public static final double WHEEL_OFFSET_X = 12.0 * 0.0254; // converted to meters
-    public static final double WHEEL_OFFSET_Y = 12.0 * 0.0254; // converted to meters
+    public static final double WHEEL_OFFSET_X = 12.75 * 0.0254; // converted to meters
+    public static final double WHEEL_OFFSET_Y = 12.75 * 0.0254; // converted to meters
     public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
     public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
     public static final double BACK_LEFT_CHASSIS_ANGULAR_OFFSET = Math.PI;
@@ -60,7 +52,19 @@ public class Constants {
     public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
-    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters) / kDrivingMotorReduction;
+    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
+        / kDrivingMotorReduction;
+
+    // Chassis configuration
+    public static final double kTrackWidth = 2 * WHEEL_OFFSET_X;
+    // Distance between centers of right and left wheels on robot
+    public static final double kWheelBase = 2 * WHEEL_OFFSET_Y;
+    // Distance between front and back wheels on robot
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     public static final class NeoMotorConstants {
         public static final double kFreeSpeedRpm = 5676;

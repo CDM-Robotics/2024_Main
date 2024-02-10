@@ -50,11 +50,10 @@ public class DriveCommand extends Command {
 
     Rotation2d ang;
     
-    angle = m_dc.getDesiredAngle() /*+ NavSubsystem.getFieldAngleOffset()*/;
+    angle = m_dc.getDesiredAngle();
     throttle = m_dc.getDesiredThrottle() * 1.0;
     SmartDashboard.putNumber("DesiredThrottle (m/s)", throttle);
     
-    //desiredMovement = new SwerveModuleState(throttle, Rotation2d.fromDegrees(angle));
     ang = new Rotation2d(m_dc.getDesiredVX(), m_dc.getDesiredVY());
     desiredMovement = new SwerveModuleState(throttle, ang);
     SmartDashboard.putNumber("Desired Angle (deg)", ang.getDegrees());

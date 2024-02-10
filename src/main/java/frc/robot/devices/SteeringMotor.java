@@ -4,8 +4,8 @@ import frc.robot.exceptions.MotorSetupException;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -14,21 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SteeringMotor extends CANSparkMax {
     private final double UNITS_PER_REV = 2048.0;
-    private double simValue;
-    private int m_numWraps;
-    private double m_currentSensorPos;
-    private double m_currentAngle;
-    private double m_memorizedCommandAngle;
-    private boolean m_sim;
     private int myID;
     private final AbsoluteEncoder m_turningEncoder;
-    private final SparkMaxPIDController m_turningPIDController;
+    private final SparkPIDController m_turningPIDController;
     private Rotation2d m_desiredAngle;
 
     public SteeringMotor(int canID, boolean simulate) {
         super(canID, MotorType.kBrushless);
-        simValue = 0.0;
-        m_sim = simulate;
         myID = canID;
 
         // Can only be assigned once in the constructor
@@ -70,5 +62,9 @@ public class SteeringMotor extends CANSparkMax {
 
     public void setAngle(double angle) {
         setAngle(new Rotation2d(angle));
+    }
+
+    public double getPosition() {
+        return m_turningEncoder.getPosition();
     }
 }
