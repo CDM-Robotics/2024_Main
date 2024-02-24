@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
+    private Command m_testCommand;
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
     /*private final LoggedDashboardChooser<String> chooser =
@@ -52,22 +53,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-      //  Logger.getInstance().recordMetadata("TritonTechTools", "MotorTest");
-        
-        // Sim only
-       /* if(isReal()) {
-            Logger.getInstance().addDataReceiver(new NT4Publisher());
-        } else {
-            Logger.getInstance().addDataReceiver(new NT4Publisher());
-        }
-        
-
-        Logger.getInstance().start();
-
-        // Initialize auto chooser
-        chooser.addDefaultOption("Default Auto", defaultAuto);
-        chooser.addOption("My Auto", customAuto);*/
-
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
@@ -112,6 +97,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
+        SmartDashboard.putBoolean("TestMode", false);
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
@@ -129,6 +115,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        SmartDashboard.putBoolean("TestMode", false);
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -143,12 +130,19 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
+        
     }
 
     @Override
     public void testInit() {
+        SmartDashboard.putBoolean("TestMode", true);
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
+
+        m_testCommand = m_robotContainer.getTestCommand();
+        if(m_testCommand != null) {
+            m_testCommand.schedule();
+        }
     }
 
     /**
@@ -156,5 +150,6 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void testPeriodic() {
+        
     }
 }

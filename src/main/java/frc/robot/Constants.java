@@ -23,14 +23,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public class Constants {
-   /**
-    * public static final class DriveConstants {
-    *   public static final int kLeftMotor1Port = 0;
-    *   public static final int kLeftMotor2Port = 1;
-    *   public static final int kRightMotor1Port = 2;
-    *   public static final int kRightMotor2Port = 3; 
-    * }
-    */ 
+   
+    // Snow blower constants
+    public static final double SNOW_BLOWER_START_ANGLE = 274.0;
+    public static final double SNOW_BLOWER_SOURCE_ANGLE = 213.0;
+    public static final double SNOW_BLOWER_AMP_ANGLE = 165.0;
+    
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
     public static final double MAX_VELOCITY = 0.5; // for the chassis, meters per second
