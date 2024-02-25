@@ -10,11 +10,14 @@ import com.revrobotics.SparkPIDController;
 
 import frc.robot.exceptions.MotorSetupException;
 import frc.robot.Constants;
+import frc.robot.Constants.NeoMotorConstants;
 
 /** Add your docs here. */
 public class VelocityMotor extends CANSparkMax {
     private final RelativeEncoder m_drivingEncoder;
     private final SparkPIDController m_drivingPIDController;
+    private double m_diameterInMeters;
+    private double m_gearReduction;
 
     private int myID;
 
@@ -26,16 +29,37 @@ public class VelocityMotor extends CANSparkMax {
         m_drivingEncoder = getEncoder();
         m_drivingPIDController = getPIDController();
         m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
+        m_diameterInMeters = 2.0;
+        m_gearReduction = 1.0;
+    }
+
+    public VelocityMotor(int canID, double diameterInMeters, double gearReduction) {
+        super(canID, MotorType.kBrushless);
+        myID = canID;
+
+        // Can only be assigned once in the constructor
+        m_drivingEncoder = getEncoder();
+        m_drivingPIDController = getPIDController();
+        m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
+
+        m_diameterInMeters = diameterInMeters;
+        m_gearReduction = gearReduction;
     }
 
     public void initialize() throws MotorSetupException {
         restoreFactoryDefaults();
 
-        m_drivingEncoder.setVelocityConversionFactor(((Constants.kWheelDiameterMeters * Math.PI) / Constants.kDrivingMotorReduction) / 60.0); // meters per second
+        double wheelCircumferenceMeters = m_diameterInMeters * Math.PI;
+        double drivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
+        double wheelFreeSpeedRps = (drivingMotorFreeSpeedRps * wheelCircumferenceMeters)
+        / m_gearReduction;
+
+
+        m_drivingEncoder.setVelocityConversionFactor(((m_diameterInMeters * Math.PI) / m_gearReduction) / 60.0); // meters per second
         m_drivingPIDController.setP(0.04);
         m_drivingPIDController.setI(0.0);
         m_drivingPIDController.setD(0.0);
-        m_drivingPIDController.setFF(1 / Constants.kDriveWheelFreeSpeedRps);
+        m_drivingPIDController.setFF(1 / wheelFreeSpeedRps);
         m_drivingPIDController.setOutputRange(-1, 1);
         
         setIdleMode(IdleMode.kCoast);

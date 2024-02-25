@@ -28,8 +28,8 @@ public class GangedMotorSubsystem extends SubsystemBase {
     private int counter = 0;
     
     public GangedMotorSubsystem(int canID1, int canID2) {
-        v1 = new VelocityMotor(canID1);
-        v2 = new VelocityMotor(canID2);
+        v1 = new VelocityMotor(canID1, 4.0 * 0.0254, 1.0);
+        v2 = new VelocityMotor(canID2, 4.0 * 0.0254, 1.0);
     }
 
     @Override

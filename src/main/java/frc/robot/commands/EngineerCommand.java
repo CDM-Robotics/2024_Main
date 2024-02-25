@@ -17,7 +17,7 @@ public class EngineerCommand extends Command {
     private ConveyorSubsystem m_conveyorSubsystem;
     private double velocity = 35.0; // 60.0 might be ideal
     private double reverseVelocity = -3.0; // -3.0 might be ideal
-    private double armVelocity = 70.0;
+    private double armVelocity = 0.5;
 
     public EngineerCommand(EngineerController engineer, ArmSubsystem armSubsystem, GangedMotorSubsystem gangedSubsystem, ConveyorSubsystem conveyorSubsystem) {
         addRequirements(armSubsystem);
