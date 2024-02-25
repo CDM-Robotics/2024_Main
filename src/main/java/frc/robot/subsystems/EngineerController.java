@@ -9,10 +9,12 @@ public class EngineerController extends SubsystemBase {
     private POSITION pos;
     private boolean speakerFireAway;
     private boolean speakerSourceIntake;
+    private boolean armActionReady;
 
     public EngineerController() {
         xbox = new XboxController(1);
         pos = POSITION.NONE;
+        armActionReady = false;
     }
 
     @Override
@@ -26,6 +28,7 @@ public class EngineerController extends SubsystemBase {
         // Check buttons for tasks to execute
         speakerFireAway = xbox.getXButton();
         speakerSourceIntake = xbox.getBButton();
+        armActionReady = xbox.getRightBumper();
     }
 
     public POSITION getDesiredPosition() {
@@ -38,5 +41,9 @@ public class EngineerController extends SubsystemBase {
 
     public boolean speakerReadyToIntake() {
         return speakerSourceIntake;
+    }
+
+    public boolean isArmActionReady() {
+        return armActionReady;
     }
 }

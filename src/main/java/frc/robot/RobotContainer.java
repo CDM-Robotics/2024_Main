@@ -49,6 +49,7 @@ public class RobotContainer {
   private ArmSubsystem armSubsystem;
   private EngineerCommand engineerCommand;
   private GangedMotorSubsystem m_gangedSubsystem;
+  private ConveyorSubsystem m_conveyorSubsystem;
 
   private RobotContainer() {
 
@@ -72,11 +73,13 @@ public class RobotContainer {
       System.out.println("Could not initialize ganged motors");
     }
         
+
+    m_conveyorSubsystem = new ConveyorSubsystem(16);
     m_engineerController = new EngineerController();
     armSubsystem = new ArmSubsystem(m_engineerController);
     armSubsystem.initialize();
     armSubsystem.setPosition(POSITION.NONE);
-    engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem);
+    engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem, m_conveyorSubsystem);
     armSubsystem.setDefaultCommand(engineerCommand);
 
     

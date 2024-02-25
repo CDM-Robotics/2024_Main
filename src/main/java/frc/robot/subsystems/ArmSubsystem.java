@@ -13,10 +13,12 @@ public class ArmSubsystem extends SubsystemBase  {
     SnowBlower positionMotor;
     DrivingMotor intakeMotor;
     private EngineerController m_engineerController;
+    private POSITION lastCommandedPosition;
 
     public ArmSubsystem(EngineerController engineerController) {
         positionMotor = new SnowBlower(17);
         m_engineerController = engineerController;
+        lastCommandedPosition = POSITION.NONE;
     }
 
     public void initialize() {
@@ -24,6 +26,7 @@ public class ArmSubsystem extends SubsystemBase  {
     }
 
     public void setPosition(POSITION pos) {
+        lastCommandedPosition = pos;
         if(pos == POSITION.AMP) {
             positionMotor.setAngle(Rotation2d.fromDegrees(Constants.SNOW_BLOWER_AMP_ANGLE));
         } else if(pos == POSITION.SOURCE) {
@@ -31,8 +34,8 @@ public class ArmSubsystem extends SubsystemBase  {
         }
     }
 
-    public double getPosition() {
-        return positionMotor.getAngle();
+    public POSITION getPosition() {
+        return lastCommandedPosition;
     }
 
     public boolean gotoStartPosition() {
