@@ -16,10 +16,12 @@ public class NavSubsystem extends SubsystemBase {
     private boolean initialized;
     static double offsetAngle;
     private int updating;
+    static double localAngle;
 
     {
         rawAngle = 0.0;
         offsetAngle = 0.0;
+        localAngle = 0.0;
     }
 
     public NavSubsystem(NavX navx) {
@@ -33,7 +35,7 @@ public class NavSubsystem extends SubsystemBase {
     public void periodic() {
         double angle;
         if (DriverStation.isDisabled()) {
-            angle = this.navx.getFieldAngle();
+            angle = this.navx.getContinuousAngle();
             NavSubsystem.setRawAngle(angle);
             //Logger.getInstance().recordOutput("Raw Angle", getRawAngle());
         }
@@ -42,16 +44,20 @@ public class NavSubsystem extends SubsystemBase {
     public void update() {
         double angle;
 
-        angle = this.navx.getFieldAngle();
+        angle = this.navx.getContinuousAngle();
         NavSubsystem.setRawAngle(angle);
 
-        SmartDashboard.putNumber("Raw Angle", angle);
+        angle = this.navx.getFieldAngle();
+        localAngle = angle;
+
+        SmartDashboard.putNumber("Raw Angle", rawAngle);
         if(!initialized) {
             offsetAngle = getRawAngle();
             initialized = true;
             SmartDashboard.putNumber("Start Angle", offsetAngle);
         }
 
+        SmartDashboard.putNumber("Local Angle", localAngle);
     }
 
     public static synchronized void setRawAngle(double a) {
@@ -62,11 +68,19 @@ public class NavSubsystem extends SubsystemBase {
         return rawAngle;
     }
 
-    public static synchronized double getFieldAngle() {
+    public static synchronized double getContinuousAngle() {
         return rawAngle - offsetAngle;
     }
 
+    public static synchronized void setLocalAngle(double a) {
+        localAngle = a;
+    }
+
+    public static synchronized double getLocalAngle() {
+        return localAngle;
+    }
+
     public static Rotation2d getRotation() {
-        return new Rotation2d(getFieldAngle());
+        return new Rotation2d(getContinuousAngle());
     }
 }

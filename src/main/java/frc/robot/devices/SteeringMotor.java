@@ -1,5 +1,6 @@
 package frc.robot.devices;
 
+import frc.robot.Constants;
 import frc.robot.exceptions.MotorSetupException;
 
 import com.revrobotics.CANSparkMax;
@@ -14,14 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SteeringMotor extends CANSparkMax {
     private final double UNITS_PER_REV = 2048.0;
-    private int myID;
     private final AbsoluteEncoder m_turningEncoder;
     private final SparkPIDController m_turningPIDController;
     private Rotation2d m_desiredAngle;
 
     public SteeringMotor(int canID, boolean simulate) {
         super(canID, MotorType.kBrushless);
-        myID = canID;
 
         // Can only be assigned once in the constructor
         m_turningEncoder = getAbsoluteEncoder(Type.kDutyCycle);
@@ -45,7 +44,7 @@ public class SteeringMotor extends CANSparkMax {
         m_turningPIDController.setOutputRange(-1, 1);
 
         setIdleMode(IdleMode.kBrake);
-        setSmartCurrentLimit(20);
+        setSmartCurrentLimit(Constants.steeringMotorCurrentLimit);
         burnFlash();
 
         m_desiredAngle = new Rotation2d(m_turningEncoder.getPosition());

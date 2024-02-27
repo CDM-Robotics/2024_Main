@@ -24,6 +24,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
  */
 public class Constants {
    
+    public static final double FORWARD_ULTRASONIC_SENSOR_OFFSET = 15+(5/16) - 17.7;
+    
     // Snow blower constants
     public static final double SNOW_BLOWER_START_ANGLE = 274.0;
     public static final double SNOW_BLOWER_SOURCE_ANGLE = 213.0;
@@ -52,6 +54,9 @@ public class Constants {
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
+
+    public static final int drivingMotorCurrentLimit = 40;
+    public static final int steeringMotorCurrentLimit = 20;
 
     // Chassis configuration
     public static final double kTrackWidth = 2 * WHEEL_OFFSET_X;

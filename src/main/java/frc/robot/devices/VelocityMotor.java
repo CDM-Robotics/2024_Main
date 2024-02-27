@@ -19,11 +19,8 @@ public class VelocityMotor extends CANSparkMax {
     private double m_diameterInMeters;
     private double m_gearReduction;
 
-    private int myID;
-
     public VelocityMotor(int canID) {
         super(canID, MotorType.kBrushless);
-        myID = canID;
 
         // Can only be assigned once in the constructor
         m_drivingEncoder = getEncoder();
@@ -35,7 +32,6 @@ public class VelocityMotor extends CANSparkMax {
 
     public VelocityMotor(int canID, double diameterInMeters, double gearReduction) {
         super(canID, MotorType.kBrushless);
-        myID = canID;
 
         // Can only be assigned once in the constructor
         m_drivingEncoder = getEncoder();

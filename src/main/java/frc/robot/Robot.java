@@ -24,11 +24,13 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;*/
 
 import edu.wpi.first.hal.HAL;
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import java.util.Optional;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,6 +49,8 @@ public class Robot extends TimedRobot {
     private static final String defaultAuto = "Default";
     private static final String customAuto = "My Auto";
 
+    private Optional<DriverStation.Alliance> alliance;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -59,7 +63,16 @@ public class Robot extends TimedRobot {
         boolean logData = SmartDashboard.getBoolean("Log Drive Data", false);
         SmartDashboard.putBoolean("Log Drive Data", logData);
 
-        m_robotContainer.initializeDriveSubsystem();
+        DriverStation.waitForDsConnection(0.0);
+        // Get the alliance information and post it to the SmartDashboard
+        alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()) {
+        SmartDashboard.putString("ALLIANCE", alliance.get().name());
+        SmartDashboard.putStringArray("POSITION", new String[]{"Red 1", "Red 2", "Red 3"});
+        } else {
+        SmartDashboard.putString("ALLIANCE", "!!!WARNING, NOT SET!!!");
+        }
+
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }

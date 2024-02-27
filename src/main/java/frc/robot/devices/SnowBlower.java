@@ -10,15 +10,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class SnowBlower extends CANSparkMax {
-    private int myID;
     private final AbsoluteEncoder turningEncoder;
     //private final SparkPIDController turningPIDController;
     private Rotation2d desiredAngle;
 
     public SnowBlower(int canID) {
         super(canID,MotorType.kBrushed);
-
-        myID = canID;
 
         // Can only be assigned once in the constructor
         turningEncoder = getAbsoluteEncoder(Type.kDutyCycle);

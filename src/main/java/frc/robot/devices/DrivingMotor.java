@@ -16,11 +16,8 @@ public class DrivingMotor extends CANSparkMax {
     private final RelativeEncoder m_drivingEncoder;
     private final SparkPIDController m_drivingPIDController;
 
-    private int myID;
-
     public DrivingMotor(int canID) {
         super(canID, MotorType.kBrushless);
-        myID = canID;
 
         // Can only be assigned once in the constructor
         m_drivingEncoder = getEncoder();
@@ -40,7 +37,7 @@ public class DrivingMotor extends CANSparkMax {
         m_drivingPIDController.setOutputRange(-1, 1);
         
         setIdleMode(IdleMode.kBrake);
-        setSmartCurrentLimit(50);
+        setSmartCurrentLimit(Constants.drivingMotorCurrentLimit);
         burnFlash();
         
         m_drivingEncoder.setPosition(0);

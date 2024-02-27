@@ -23,6 +23,15 @@ public class NavX {
     }
 
     public double getFieldAngle() {
+        double angle = ahrs.getYaw() + 180.0;
+        if(angle > 360.0) {
+            angle = 360.0;
+        }
+
+        return angle;
+    }
+
+    public double getContinuousAngle() {
         return ahrs.getAngle();
     }
 }

@@ -66,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // Update the odometry in the periodic block
         m_odometry.update(
-            Rotation2d.fromDegrees(navSubsystem.getFieldAngle()),
+            Rotation2d.fromDegrees(navSubsystem.getContinuousAngle()),
             new SwerveModulePosition[] {
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
@@ -95,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             m_odometry = new SwerveDriveOdometry(
                 Constants.kDriveKinematics,
-            Rotation2d.fromDegrees(navSubsystem.getFieldAngle()),
+            Rotation2d.fromDegrees(NavSubsystem.getContinuousAngle()),
             new SwerveModulePosition[] {
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
@@ -137,12 +137,17 @@ public class DriveSubsystem extends SubsystemBase {
         m_assemblies[1].setState(states[1]);
         m_assemblies[2].setState(states[2]);
         m_assemblies[3].setState(states[3]);
-
-        
     }
 
-    public void setRotation(double rotation) {
-        double pureRotationSpeed = 0.5;
+    public void setDesiredChassisSpeeds(ChassisSpeeds chassis) {
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
+
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, 1.1 /*Constants.MAX_WHEEL_VELOCITY*/);
+
+        m_assemblies[0].setState(states[0]);
+        m_assemblies[1].setState(states[1]);
+        m_assemblies[2].setState(states[2]);
+        m_assemblies[3].setState(states[3]);
     }
 
     public Pose2d getPose() {
@@ -156,7 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         if(m_odometry != null) {
             m_odometry.resetPosition(
-                Rotation2d.fromDegrees(navSubsystem.getFieldAngle()),
+                Rotation2d.fromDegrees(NavSubsystem.getContinuousAngle()),
                 new SwerveModulePosition[] {
                     frontLeft.getPosition(),
                     frontRight.getPosition(),
