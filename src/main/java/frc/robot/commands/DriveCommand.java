@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.subsystems.DriveController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NavSubsystem;
-import frc.robot.tasks.MoveToUltrasonicPositionTask;
+//import frc.robot.tasks.MoveToUltrasonicPositionTask;
 
 import java.util.Date;
 
@@ -26,7 +26,7 @@ public class DriveCommand extends Command {
   private SwerveModuleState desiredMovement;
   private int simControl;
   private int i;
-  private MoveToUltrasonicPositionTask forwardStationTask;
+  //private MoveToUltrasonicPositionTask forwardStationTask;
 
   /** Creates a new DriveCommand. */
   public DriveCommand(DriveController dc, DriveSubsystem driveSubsystem) {
@@ -73,7 +73,7 @@ public class DriveCommand extends Command {
     return false;
   }
 
-  public void setMoveToForwardStationTask(MoveToUltrasonicPositionTask task) {
+  /*public void setMoveToForwardStationTask(MoveToUltrasonicPositionTask task) {
     forwardStationTask = task;
-  }
+  }*/
 }

@@ -17,7 +17,8 @@ public class EngineerCommand extends Command {
     private ConveyorSubsystem m_conveyorSubsystem;
     private double velocity = 35.0; // 60.0 might be ideal
     private double reverseVelocity = -3.0; // -3.0 might be ideal
-    private double armVelocity = 0.5;
+    private double armPercentOut = 0.50;
+    private double armPercentIn = -0.10;
 
     public EngineerCommand(EngineerController engineer, ArmSubsystem armSubsystem, GangedMotorSubsystem gangedSubsystem, ConveyorSubsystem conveyorSubsystem) {
         addRequirements(armSubsystem);
@@ -51,9 +52,9 @@ public class EngineerCommand extends Command {
         if(m_conveyorSubsystem != null) {
             if(m_engineerController.isArmActionReady()) {
                 if(m_armSubsystem.getPosition() == POSITION.AMP) {
-                    m_conveyorSubsystem.setVelocity(armVelocity);
+                    m_conveyorSubsystem.setVelocity(armPercentOut);
                 } else if(m_armSubsystem.getPosition() == POSITION.SOURCE) {
-                    m_conveyorSubsystem.setVelocity(-armVelocity);
+                    m_conveyorSubsystem.setVelocity(armPercentIn);
                 }
             } else {
                 m_conveyorSubsystem.setVelocity(0.0);

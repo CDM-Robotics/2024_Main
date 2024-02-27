@@ -65,13 +65,13 @@ public class RobotContainer {
     engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem, m_conveyorSubsystem);
     armSubsystem.setDefaultCommand(engineerCommand);
 
-    m_ultrasonicSubsystem = new FrontBackUltrasonicSubsystem(0, "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if00", "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if02");
+    /*m_ultrasonicSubsystem = new FrontBackUltrasonicSubsystem(0, "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if00", "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if02");
     if(!m_ultrasonicSubsystem.init()) {
       m_DriveCommand.setMoveToForwardStationTask(new MoveToUltrasonicPositionTask(m_ultrasonicSubsystem));
       System.out.println("There was an error while trying to initialzie subsystem, proceed with caution.");
     } else {
       m_DriveCommand.setMoveToForwardStationTask(new MoveToUltrasonicPositionTask(m_ultrasonicSubsystem));
-    }
+    }*/
     
   }
 

@@ -26,8 +26,8 @@ public class EngineerController extends SubsystemBase {
         } 
 
         // Check buttons for tasks to execute
-        speakerFireAway = xbox.getXButton();
-        speakerSourceIntake = xbox.getBButton();
+        speakerFireAway = xbox.getBButton();
+        speakerSourceIntake = xbox.getXButton();
         armActionReady = xbox.getRightBumper();
     }
 

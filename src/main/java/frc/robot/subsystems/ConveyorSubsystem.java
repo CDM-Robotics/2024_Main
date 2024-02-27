@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.devices.VelocityMotor;
+import frc.robot.devices.PercentMotor;
 import frc.robot.exceptions.MotorSetupException;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,10 +23,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 /** Add your docs here. */
 public class ConveyorSubsystem extends SubsystemBase {
-    private VelocityMotor v1;
+    private PercentMotor v1;
     
     public ConveyorSubsystem(int canID1) {
-        v1 = new VelocityMotor(canID1, 1.5 * 0.0254, 1.0);
+        v1 = new PercentMotor(canID1, 1.5 * 0.0254, 1.0);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ConveyorSubsystem extends SubsystemBase {
         try {
             v1.initialize();
             v1.setIdleMode(IdleMode.kCoast);
-            v1.setVelocity(0.0);
+            v1.setPercent(0.0);
         } catch(Exception e) {
             return false;
         }
@@ -52,6 +52,6 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void setVelocity(double s) {
-        v1.setVelocity(s);
+        v1.setPercent(s);
     }
 }
