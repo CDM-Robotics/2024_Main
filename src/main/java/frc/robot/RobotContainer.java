@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.auto.GoForwardAndBack;
+import frc.robot.auto.Trajectories;
 import frc.robot.commands.*;
 import frc.robot.devices.*;
 import frc.robot.subsystems.*;
@@ -31,7 +33,7 @@ public class RobotContainer {
   private GangedMotorSubsystem m_gangedSubsystem;
   private ConveyorSubsystem m_conveyorSubsystem;
   private FrontBackUltrasonicSubsystem m_ultrasonicSubsystem;
-  
+  private Trajectories trajectories;
 
 
   private RobotContainer() {
@@ -47,23 +49,25 @@ public class RobotContainer {
 
     m_DriveController = new DriveController();
     m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem);
-    m_DriveController.setDefaultCommand(m_DriveCommand);
+    //m_DriveController.setDefaultCommand(m_DriveCommand);
+    m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
 
-    m_gangedSubsystem = new GangedMotorSubsystem(10,11);
-    if(m_gangedSubsystem.initialize()) {
-      System.out.println("Ganged Motors Initialized");
-    } else {
-      System.out.println("Could not initialize ganged motors");
+    if(Constants.payloadsEnabled) {
+      m_gangedSubsystem = new GangedMotorSubsystem(10,11);
+      if(m_gangedSubsystem.initialize()) {
+        System.out.println("Ganged Motors Initialized");
+      } else {
+        System.out.println("Could not initialize ganged motors");
+      }
+          
+      m_conveyorSubsystem = new ConveyorSubsystem(16);
+      m_engineerController = new EngineerController();
+      armSubsystem = new ArmSubsystem(m_engineerController);
+      armSubsystem.initialize();
+      armSubsystem.setPosition(POSITION.NONE);
+      engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem, m_conveyorSubsystem);
+      armSubsystem.setDefaultCommand(engineerCommand);
     }
-        
-
-    m_conveyorSubsystem = new ConveyorSubsystem(16);
-    m_engineerController = new EngineerController();
-    armSubsystem = new ArmSubsystem(m_engineerController);
-    armSubsystem.initialize();
-    armSubsystem.setPosition(POSITION.NONE);
-    engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem, m_conveyorSubsystem);
-    armSubsystem.setDefaultCommand(engineerCommand);
 
     /*m_ultrasonicSubsystem = new FrontBackUltrasonicSubsystem(0, "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if00", "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if02");
     if(!m_ultrasonicSubsystem.init()) {
@@ -73,6 +77,8 @@ public class RobotContainer {
       m_DriveCommand.setMoveToForwardStationTask(new MoveToUltrasonicPositionTask(m_ultrasonicSubsystem));
     }*/
     
+    // Get ready for autonomous
+    trajectories = new Trajectories(m_DriveSubsystem);
   }
 
   public static RobotContainer getInstance() {
@@ -89,8 +95,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
   */
   public Command getAutonomousCommand() {
-    // The selected command will be run in autonomous
-    return null;
+    return new GoForwardAndBack(trajectories);
   }
 
   public Command getTestCommand() {

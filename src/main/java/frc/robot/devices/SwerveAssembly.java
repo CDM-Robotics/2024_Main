@@ -7,6 +7,7 @@ package frc.robot.devices;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.exceptions.MotorSetupException;
 
@@ -51,6 +52,7 @@ public class SwerveAssembly {
         // Optimize the reference state to avoid spinning further than 90 degrees.
         SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState, m_steeringMotor.getAngle());
 
+        SmartDashboard.putNumber("SM SPEED", optimizedDesiredState.speedMetersPerSecond);
         m_steeringMotor.setAngle(optimizedDesiredState.angle);
         m_driveMotor.setVelocity(optimizedDesiredState.speedMetersPerSecond);
     }

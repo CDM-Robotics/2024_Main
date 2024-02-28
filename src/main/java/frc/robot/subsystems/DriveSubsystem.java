@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.devices.SwerveAssembly;
 import frc.robot.exceptions.MotorSetupException;
 
@@ -66,7 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // Update the odometry in the periodic block
         m_odometry.update(
-            Rotation2d.fromDegrees(navSubsystem.getContinuousAngle()),
+            getAngle(),
             new SwerveModulePosition[] {
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
@@ -95,7 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             m_odometry = new SwerveDriveOdometry(
                 Constants.kDriveKinematics,
-            Rotation2d.fromDegrees(NavSubsystem.getContinuousAngle()),
+                getAngle(),
             new SwerveModulePosition[] {
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
@@ -161,7 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         if(m_odometry != null) {
             m_odometry.resetPosition(
-                Rotation2d.fromDegrees(NavSubsystem.getContinuousAngle()),
+                getAngle(),
                 new SwerveModulePosition[] {
                     frontLeft.getPosition(),
                     frontRight.getPosition(),
@@ -171,4 +172,22 @@ public class DriveSubsystem extends SubsystemBase {
                 pose);
         }
     }
+
+    private Rotation2d getAngle() {
+        return Rotation2d.fromDegrees(-NavSubsystem.getContinuousAngle());
+    }
+
+      /**
+   * Sets the swerve ModuleStates.
+   *
+   * @param desiredStates The desired SwerveModule states.
+   */
+  public void setModuleStates(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    m_assemblies[0].setState(desiredStates[0]);
+    m_assemblies[1].setState(desiredStates[1]);
+    m_assemblies[2].setState(desiredStates[2]);
+    m_assemblies[3].setState(desiredStates[3]);
+  }
 }

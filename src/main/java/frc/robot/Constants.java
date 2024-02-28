@@ -13,6 +13,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -36,8 +37,16 @@ public class Constants {
     public static final double MAX_VELOCITY = 0.5; // for the chassis, meters per second
     public static final double MAX_WHEEL_VELOCITY = 3.0; // for any wheel, meters per second
 
+    // My Murphy's Robot
+    //public static final boolean payloadsEnabled = false;
+    //public static final double WHEEL_OFFSET_X = 12.0 * 0.0254; // converted to meters
+    //public static final double WHEEL_OFFSET_Y = 12.0 * 0.0254; // converted to meters
+
+    // TEAM 6072's Robot
+    public static final boolean payloadsEnabled = true;
     public static final double WHEEL_OFFSET_X = 12.75 * 0.0254; // converted to meters
     public static final double WHEEL_OFFSET_Y = 12.75 * 0.0254; // converted to meters
+
     public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
     public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
     public static final double BACK_LEFT_CHASSIS_ANGULAR_OFFSET = Math.PI;
@@ -71,6 +80,27 @@ public class Constants {
 
     public static final class NeoMotorConstants {
         public static final double kFreeSpeedRpm = 5676;
+    }
+
+    public static final class AutoConstants {
+        public static final double kSimplePullForwardSpeed = 0.50;
+        public static final double kSimplePullForwardAccel = 0.50;
+        public static final double kPXController = 1.5;
+        public static final double kPYController = 1.5;
+        public static final double kPThetaController = 2;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+
+        // Constraint for the motion profiled robot angle controller
+        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static final class DriveConstants {
+        // Driving Parameters - Note that these are not the maximum capable speeds of
+        // the robot, rather the allowed maximum speeds
+        public static final double kMaxSpeedMetersPerSecond = 4.8;
+        public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     }
 }
 

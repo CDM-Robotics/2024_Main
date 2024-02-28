@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
       new LoggedDashboardChooser<>("Auto Choices");*/
     private static final String defaultAuto = "Default";
     private static final String customAuto = "My Auto";
+    private int count;
 
     private Optional<DriverStation.Alliance> alliance;
 
@@ -57,6 +58,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        count = 0;
+
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
@@ -124,6 +127,11 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousPeriodic() {
+        count++;
+        //if(!m_autonomousCommand.isFinished()) {
+        //    m_autonomousCommand.execute();
+        //}
+        SmartDashboard.putNumber("AUTONOMOUS", count);
     }
 
     @Override
