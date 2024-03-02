@@ -30,7 +30,7 @@ public class Constants {
     // Snow blower constants
     public static final double SNOW_BLOWER_START_ANGLE = 274.0;
     public static final double SNOW_BLOWER_SOURCE_ANGLE = 213.0;
-    public static final double SNOW_BLOWER_AMP_ANGLE = 165.0;
+    public static final double SNOW_BLOWER_AMP_ANGLE = 160.0;
     
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;

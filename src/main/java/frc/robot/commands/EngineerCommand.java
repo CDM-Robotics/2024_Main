@@ -18,7 +18,7 @@ public class EngineerCommand extends Command {
     private double velocity = 35.0; // 60.0 might be ideal
     private double reverseVelocity = -3.0; // -3.0 might be ideal
     private double armPercentOut = 0.50;
-    private double armPercentIn = -0.10;
+    private double armPercentIn = -0.20;
 
     public EngineerCommand(EngineerController engineer, ArmSubsystem armSubsystem, GangedMotorSubsystem gangedSubsystem, ConveyorSubsystem conveyorSubsystem) {
         addRequirements(armSubsystem);
