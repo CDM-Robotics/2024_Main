@@ -28,7 +28,7 @@ public class SnowBlower extends CANSparkMax {
         /*turningPIDController.setP(0.04);
         turningPIDController.setI(0.0);
         turningPIDController.setD(0.0);
-        turningPIDController.setFF(1 / Constants.kDriveWheelFreeSpeedRps);
+        turningPIDController.setFF(0.0);
         turningPIDController.setOutputRange(-1, 1);*/
         setIdleMode(IdleMode.kBrake);
         setSmartCurrentLimit(15);

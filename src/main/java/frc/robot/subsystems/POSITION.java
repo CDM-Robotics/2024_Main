@@ -1,5 +1,5 @@
 package frc.robot.subsystems;
 
 public enum POSITION {
-    NONE, SOURCE, AMP, START;
+    NONE, SOURCE, AMP, START, RAMPSOURCE, ARMSOURCE;
 }

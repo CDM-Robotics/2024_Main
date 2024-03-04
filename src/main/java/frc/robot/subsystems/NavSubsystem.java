@@ -50,14 +50,10 @@ public class NavSubsystem extends SubsystemBase {
         angle = this.navx.getFieldAngle();
         localAngle = angle;
 
-        SmartDashboard.putNumber("Raw Angle", rawAngle);
         if(!initialized) {
             offsetAngle = getRawAngle();
             initialized = true;
-            SmartDashboard.putNumber("Start Angle", offsetAngle);
         }
-
-        SmartDashboard.putNumber("Local Angle", localAngle);
     }
 
     public static synchronized void setRawAngle(double a) {
@@ -77,7 +73,7 @@ public class NavSubsystem extends SubsystemBase {
     }
 
     public static synchronized double getLocalAngle() {
-        return localAngle;
+        return localAngle - offsetAngle;
     }
 
     public static Rotation2d getRotation() {

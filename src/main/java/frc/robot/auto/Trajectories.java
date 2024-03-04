@@ -18,7 +18,12 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.NavSubsystem;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 public class Trajectories {
     private DriveSubsystem m_driveSubsystem;
@@ -77,4 +82,6 @@ public class Trajectories {
         // Run path following command, then stop at the end.
         //return swerveControllerCommand.andThen(() -> m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle()));
     }
+
+    public PathPlannerPath simplePath = PathPlannerPath.fromPathFile("Simple Path");
 }

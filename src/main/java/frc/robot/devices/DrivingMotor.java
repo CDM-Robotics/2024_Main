@@ -13,6 +13,7 @@ import frc.robot.exceptions.MotorSetupException;
 import frc.robot.Constants;
 
 /** Add your docs here. */
+//public class DrivingMotor extends CANSparkMax {
 public class DrivingMotor extends CANSparkFlex {
     private final RelativeEncoder m_drivingEncoder;
     private final SparkPIDController m_drivingPIDController;

@@ -28,7 +28,7 @@ public class NavX {
             angle = 360.0;
         }
 
-        return angle;
+        return ahrs.getYaw();
     }
 
     public double getContinuousAngle() {

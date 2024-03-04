@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import java.util.ArrayList;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 public class RobotContainer {
 
   private static RobotContainer m_robotContainer = new RobotContainer();
@@ -35,6 +37,9 @@ public class RobotContainer {
   private FrontBackUltrasonicSubsystem m_ultrasonicSubsystem;
   private Trajectories trajectories;
 
+  private DriveAlignToAngle m_alignToRampToSource;
+  private DriveAlignToAngle m_alignToArmToSource;
+
 
   private RobotContainer() {
 
@@ -47,10 +52,21 @@ public class RobotContainer {
     m_DriveSubsystem = new DriveSubsystem(m_navSubsystem);
     m_DriveSubsystem.initialize();
 
-    m_DriveController = new DriveController();
+    m_DriveController = new DriveController(new DriveAlignToAngle(m_DriveSubsystem));
     m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem);
-    //m_DriveController.setDefaultCommand(m_DriveCommand);
+
     m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
+
+    /*if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+      m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 60.0);
+      m_alignToArmToSource = new DriveAlignToAngle(m_DriveSubsystem, 180 + 60.0);
+    } else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 300.0);
+      m_alignToArmToSource = new DriveAlignToAngle(m_DriveSubsystem, 180.0 - 60.0);
+    } else {
+      m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 0.0);
+      m_alignToArmToSource = new DriveAlignToAngle(m_DriveSubsystem, 180.0);
+    }*/
 
     if(Constants.payloadsEnabled) {
       m_gangedSubsystem = new GangedMotorSubsystem(10,11);
@@ -95,7 +111,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
   */
   public Command getAutonomousCommand() {
-    return new GoForwardAndBack(trajectories);
+    //return new GoForwardAndBack(trajectories);
+    return AutoBuilder.followPath(trajectories.simplePath);
   }
 
   public Command getTestCommand() {

@@ -14,6 +14,11 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+import java.lang.Math;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -25,6 +30,15 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public class Constants {
    
+    // Field alignment angles
+    public static final double SPEAKER_ANGLE = 180.0;
+    public static final double BLUE_RAMP_SOURCE_ANGLE = 300.0;
+    public static final double BLUE_ARM_SOURCE_ANGLE = 300.0 - 180;
+    public static final double BLUE_AMP_ANGLE = 90.0;
+    public static final double RED_RAMP_SOURCE_ANGLE = 60.0;
+    public static final double RED_ARM_SOURCE_ANGLE = 60 + 180;
+    public static final double RED_AMP_ANGLE = 270.0;
+
     public static final double FORWARD_ULTRASONIC_SENSOR_OFFSET = 15+(5/16) - 17.7;
     
     // Snow blower constants
@@ -102,5 +116,13 @@ public class Constants {
         public static final double kMaxSpeedMetersPerSecond = 4.8;
         public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     }
+
+    public static final HolonomicPathFollowerConfig kHolonomicPathFollowerConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(5.0, 0.0, 0.0),
+        new PIDConstants(5.0, 0.0, 0.0),
+        0.25,
+        Math.sqrt(WHEEL_OFFSET_X * WHEEL_OFFSET_X + WHEEL_OFFSET_Y * WHEEL_OFFSET_Y),
+        new ReplanningConfig()
+    );
 }
 
