@@ -155,7 +155,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         // If we are translating and rotating at the same time, we need to make sure one of the wheels doesn't
         // get commanded to travel too fast
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, 1.1 /*Constants.MAX_WHEEL_VELOCITY*/);
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.MAX_WHEEL_VELOCITY);
 
         m_assemblies[0].setState(states[0]);
         m_assemblies[1].setState(states[1]);
@@ -166,7 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void setDesiredChassisSpeeds(ChassisSpeeds chassis) {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
 
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, 1.1 /*Constants.MAX_WHEEL_VELOCITY*/);
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.MAX_WHEEL_VELOCITY);
 
         m_assemblies[0].setState(states[0]);
         m_assemblies[1].setState(states[1]);

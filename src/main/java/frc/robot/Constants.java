@@ -32,11 +32,11 @@ public class Constants {
    
     // Field alignment angles
     public static final double SPEAKER_ANGLE = 180.0;
-    public static final double BLUE_RAMP_SOURCE_ANGLE = 300.0;
-    public static final double BLUE_ARM_SOURCE_ANGLE = 300.0 - 180;
+    public static final double RED_RAMP_SOURCE_ANGLE = 300.0;
+    public static final double RED_ARM_SOURCE_ANGLE = 300.0 - 180;
     public static final double BLUE_AMP_ANGLE = 90.0;
-    public static final double RED_RAMP_SOURCE_ANGLE = 60.0;
-    public static final double RED_ARM_SOURCE_ANGLE = 60 + 180;
+    public static final double BLUE_RAMP_SOURCE_ANGLE = 60.0;
+    public static final double BLUE_ARM_SOURCE_ANGLE = 60 + 180;
     public static final double RED_AMP_ANGLE = 270.0;
 
     public static final double FORWARD_ULTRASONIC_SENSOR_OFFSET = 15+(5/16) - 17.7;
@@ -48,7 +48,7 @@ public class Constants {
     
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
-    public static final double MAX_VELOCITY = 0.5; // for the chassis, meters per second
+    public static final double MAX_VELOCITY = 3.0; // for the chassis, meters per second
     public static final double MAX_WHEEL_VELOCITY = 3.0; // for any wheel, meters per second
 
     // My Murphy's Robot
