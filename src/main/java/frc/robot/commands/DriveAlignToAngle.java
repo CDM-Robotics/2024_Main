@@ -55,7 +55,7 @@ public class DriveAlignToAngle extends Command {
 
         // When the angle is off by more that 10 degrees, only rotate.
         if(Math.abs(targetOffset) > (10.0 / 180 * Math.PI)) {
-            throttleFactor = 0.5;
+            throttleFactor = 0.75;
             m_driveSubsystem.setFieldAlignment(throttleFactor * omega);
         } else if(Math.abs(targetOffset) > (2.0 / 180 * Math.PI)) {
 
