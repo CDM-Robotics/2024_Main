@@ -21,10 +21,12 @@ public class DriveController extends SubsystemBase {
     private boolean m_rotateToSource;
     private DriveAlignToAngle m_driveAlignToAngle;
     private DriverStation.Alliance m_alliance;
+    private boolean m_overrideAutoThrottle;
 
     public DriveController(DriveAlignToAngle driveAlignToAngle) {
         xbox = new XboxController(0);
         m_rotateToSource = false;
+        m_overrideAutoThrottle = false;
         m_driveAlignToAngle = driveAlignToAngle;
         DriverStation.Alliance m_alliance = null;
 
@@ -69,6 +71,8 @@ public class DriveController extends SubsystemBase {
             }
             SmartDashboard.putData( );*/
         }
+
+        m_overrideAutoThrottle = xbox.getLeftBumper();
 
         if(xbox.getXButton()) {
             m_driveAlignToAngle.setAngle(m_rampSourceAngle);
@@ -158,6 +162,10 @@ public class DriveController extends SubsystemBase {
 
     public boolean getRotateToSource() {
         return m_rotateToSource;
+    }
+
+    public boolean overrideAutoThrottle() {
+        return m_overrideAutoThrottle;
     }
     
 }

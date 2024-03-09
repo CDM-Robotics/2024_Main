@@ -58,7 +58,7 @@ public class MoveToUltrasonicPositionTask {
         } else {
             maxAngularRate = 0;
             
-            range = m_fbsys.getLastForwardRange();
+            range = m_fbsys.getLastArmRange();
             if(range > 450) {
                 throttleFactor = 0.1;
             } else {

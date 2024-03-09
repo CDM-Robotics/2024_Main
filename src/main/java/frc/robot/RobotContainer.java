@@ -6,6 +6,8 @@ import frc.robot.commands.*;
 import frc.robot.devices.*;
 import frc.robot.subsystems.*;
 import frc.robot.tasks.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
@@ -49,11 +51,18 @@ public class RobotContainer {
     m_navCommand = new NavCommand(m_navSubsystem);
     m_navSubsystem.setDefaultCommand(m_navCommand);
 
+    
+    m_ultrasonicSubsystem = new FrontBackUltrasonicSubsystem(0, "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if00", "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if02");
+    if(!m_ultrasonicSubsystem.init()) {
+      m_ultrasonicSubsystem = null;
+      System.out.println("There was an error while trying to initialzie subsystem, proceed with caution.");
+    }
+
     m_DriveSubsystem = new DriveSubsystem(m_navSubsystem);
     m_DriveSubsystem.initialize();
 
     m_DriveController = new DriveController(new DriveAlignToAngle(m_DriveSubsystem));
-    m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem);
+    m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem, m_ultrasonicSubsystem);
 
     m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
 
@@ -85,13 +94,8 @@ public class RobotContainer {
       armSubsystem.setDefaultCommand(engineerCommand);
     }
 
-    /*m_ultrasonicSubsystem = new FrontBackUltrasonicSubsystem(0, "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if00", "/dev/serial/by-id/usb-wch.cn_USB_Dual_Serial_0123456789-if02");
-    if(!m_ultrasonicSubsystem.init()) {
-      m_DriveCommand.setMoveToForwardStationTask(new MoveToUltrasonicPositionTask(m_ultrasonicSubsystem));
-      System.out.println("There was an error while trying to initialzie subsystem, proceed with caution.");
-    } else {
-      m_DriveCommand.setMoveToForwardStationTask(new MoveToUltrasonicPositionTask(m_ultrasonicSubsystem));
-    }*/
+
+    
     
     // Get ready for autonomous
     trajectories = new Trajectories(m_DriveSubsystem);
@@ -112,6 +116,7 @@ public class RobotContainer {
   */
   public Command getAutonomousCommand() {
     //return new GoForwardAndBack(trajectories);
+    m_DriveSubsystem.resetOdometry(new Pose2d(1, 6, new Rotation2d()));
     return AutoBuilder.followPath(trajectories.simplePath);
   }
 

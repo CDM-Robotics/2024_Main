@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.subsystems.DriveController;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FrontBackUltrasonicSubsystem;
 import frc.robot.subsystems.NavSubsystem;
 //import frc.robot.tasks.MoveToUltrasonicPositionTask;
 
@@ -27,12 +28,14 @@ public class DriveCommand extends Command {
   private SwerveModuleState desiredMovement;
   private int simControl;
   private int i;
+  private FrontBackUltrasonicSubsystem m_fbsys;
   //private MoveToUltrasonicPositionTask forwardStationTask;
 
   /** Creates a new DriveCommand. */
-  public DriveCommand(DriveController dc, DriveSubsystem driveSubsystem) {
+  public DriveCommand(DriveController dc, DriveSubsystem driveSubsystem, FrontBackUltrasonicSubsystem fbsys) {
     m_dc = dc;
     m_driveSubsystem = driveSubsystem;
+    m_fbsys = fbsys;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_dc);
     addRequirements(m_driveSubsystem);
@@ -54,7 +57,20 @@ public class DriveCommand extends Command {
     Rotation2d ang;
     
     angle = m_dc.getDesiredAngle();
+
     throttle = m_dc.getDesiredThrottle() * 1.0;
+    
+    if(!m_dc.overrideAutoThrottle()) {
+      if(m_fbsys != null) {
+        SmartDashboard.putNumber("Ramp Range", m_fbsys.getLastRampRange());
+        SmartDashboard.putNumber("Arm Range", m_fbsys.getLastArmRange());
+        if((m_fbsys.getLastRampRange() >= 0.0 && m_fbsys.getLastRampRange() < 1000.0) || 
+           (m_fbsys.getLastArmRange() >= 0.0 && m_fbsys.getLastArmRange() < 1000.0)) {
+          throttle = throttle * 0.25;
+        }
+      } 
+    }
+
     SmartDashboard.putNumber("DesiredThrottle (m/s)", throttle);
     
     ang = new Rotation2d(m_dc.getDesiredVX(), m_dc.getDesiredVY());

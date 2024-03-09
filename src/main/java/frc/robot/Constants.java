@@ -39,7 +39,8 @@ public class Constants {
     public static final double BLUE_ARM_SOURCE_ANGLE = 60 + 180;
     public static final double RED_AMP_ANGLE = 270.0;
 
-    public static final double FORWARD_ULTRASONIC_SENSOR_OFFSET = 15+(5/16) - 17.7;
+    public static final double FORWARD_ULTRASONIC_SENSOR_OFFSET = (10 * 25.4);  // 10 inches in mm
+    public static final double REVERSE_ULTRASONIC_SENSOR_OFFSET = (12.25 * 25.4); // 6.5 inches in mm
     
     // Snow blower constants
     public static final double SNOW_BLOWER_START_ANGLE = 274.0;
@@ -48,18 +49,18 @@ public class Constants {
     
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
-    public static final double MAX_VELOCITY = 2.0; // for the chassis, meters per second
+    public static final double MAX_VELOCITY = 0.25; // for the chassis, meters per second
     public static final double MAX_WHEEL_VELOCITY = 3.0; // for any wheel, meters per second
 
     // My Murphy's Robot
-    //public static final boolean payloadsEnabled = false;
-    //public static final double WHEEL_OFFSET_X = 12.0 * 0.0254; // converted to meters
-    //public static final double WHEEL_OFFSET_Y = 12.0 * 0.0254; // converted to meters
+    public static final boolean payloadsEnabled = false;
+    public static final double WHEEL_OFFSET_X = 12.0 * 0.0254; // converted to meters
+    public static final double WHEEL_OFFSET_Y = 12.0 * 0.0254; // converted to meters
 
     // TEAM 6072's Robot
-    public static final boolean payloadsEnabled = true;
-    public static final double WHEEL_OFFSET_X = 12.75 * 0.0254; // converted to meters
-    public static final double WHEEL_OFFSET_Y = 12.75 * 0.0254; // converted to meters
+    //public static final boolean payloadsEnabled = true;
+    //public static final double WHEEL_OFFSET_X = 12.75 * 0.0254; // converted to meters
+    //public static final double WHEEL_OFFSET_Y = 12.75 * 0.0254; // converted to meters
 
     public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
     public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;

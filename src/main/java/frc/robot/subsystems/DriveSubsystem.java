@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 
 //import org.littletonrobotics.junction.Logger;
@@ -183,13 +184,13 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public Pose2d getPathPose() {
-        return getPose().rotateBy(new Rotation2d(Units.degreesToRadians(90.0)));
+        return getPose().rotateBy(new Rotation2d(/*Units.degreesToRadians(90.0)*/));
     }
 
     public void resetOdometry(Pose2d pose) {
         if(m_odometry != null) {
             m_odometry.resetPosition(
-                getAngle(),
+                Rotation2d.fromDegrees(Math.toDegrees(MathUtil.angleModulus(getAngle().getRadians()))),
                 new SwerveModulePosition[] {
                     frontLeft.getPosition(),
                     frontRight.getPosition(),
