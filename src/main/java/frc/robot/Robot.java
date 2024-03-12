@@ -60,6 +60,15 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         count = 0;
 
+        try {
+            Thread.sleep(3000);
+        } catch(Exception e) {
+            System.out.println("Error while sleeping.......");
+            e.printStackTrace();
+        } finally {
+            System.out.println("Sleep complete ;-)");
+        }
+
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
