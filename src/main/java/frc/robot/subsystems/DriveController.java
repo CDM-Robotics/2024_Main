@@ -165,7 +165,7 @@ public class DriveController extends SubsystemBase {
     }
 
     public boolean overrideAutoThrottle() {
-        return m_overrideAutoThrottle;
+        return true;
     }
     
 }
