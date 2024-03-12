@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FrontBackUltrasonicSubsystem;
@@ -64,9 +65,9 @@ public class DriveCommand extends Command {
       if(m_fbsys != null) {
         SmartDashboard.putNumber("Ramp Range", m_fbsys.getLastRampRange());
         SmartDashboard.putNumber("Arm Range", m_fbsys.getLastArmRange());
-        if((m_fbsys.getLastRampRange() >= 0.0 && m_fbsys.getLastRampRange() < 1000.0) || 
-           (m_fbsys.getLastArmRange() >= 0.0 && m_fbsys.getLastArmRange() < 1000.0)) {
-          throttle = throttle * 0.25;
+        if((m_fbsys.getLastRampRange() > 0.0 && m_fbsys.getLastRampRange() < 1000.0) || 
+           (m_fbsys.getLastArmRange() > 0.0 && m_fbsys.getLastArmRange() < 1000.0)) {
+          throttle = throttle / Constants.MAX_VELOCITY * Constants.SLOW_VELOCITY;
         }
       } 
     }
