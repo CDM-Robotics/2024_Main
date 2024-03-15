@@ -9,6 +9,8 @@ public class UltrasonicRangefinder implements Runnable {
     private int m_handle;
     private boolean m_initialized;
     private int m_id;
+    private int timeouts;
+    private int measurements;
 
     private double m_range;
 
@@ -16,6 +18,8 @@ public class UltrasonicRangefinder implements Runnable {
         m_id = id;
         m_serialPort = port;
         m_initialized = false;
+        timeouts = 0;
+        measurements = 0;
     }
 
     public boolean init() {
@@ -27,7 +31,7 @@ public class UltrasonicRangefinder implements Runnable {
             SerialPortJNI.serialSetParity(m_handle, (byte)0);
             SerialPortJNI.serialSetStopBits(m_handle,(byte)10);
             SerialPortJNI.serialSetFlowControl(m_handle, (byte)0);
-            SerialPortJNI.serialSetTimeout(m_handle, 100);
+            SerialPortJNI.serialSetTimeout(m_handle, 120);  // Samples at 10Hz + 20% margin
             SerialPortJNI.serialEnableTermination(m_handle, '\r');
             m_initialized = true;
         } else {
@@ -50,10 +54,20 @@ public class UltrasonicRangefinder implements Runnable {
                         if(ascii.length() == 5) {
                             if(ascii.substring(0, 1).compareTo("R") == 0) {
                                 String distanceAsString = ascii.substring(1,5);
-                                setRange(Double.parseDouble(distanceAsString));
+                                if(measurements >= 3) {
+                                    setRange(Double.parseDouble(distanceAsString));
+                                }
+                                measurements++;
+                                timeouts = 0;
                             }
                         } 
                     } catch (Exception e) {}
+                } else {
+                    if(timeouts >= 3) {
+                        measurements = 0;
+                        setRange(-999999.0);
+                    }
+                    timeouts++;
                 }
             }
 

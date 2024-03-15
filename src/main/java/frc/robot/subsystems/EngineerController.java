@@ -23,7 +23,9 @@ public class EngineerController extends SubsystemBase {
             pos = POSITION.SOURCE;
         } else if(xbox.getAButtonPressed()) {
             pos = POSITION.AMP;
-        } 
+        } else if(xbox.getLeftBumper()) {
+            pos = POSITION.START;
+        }
 
         // Check buttons for tasks to execute
         speakerFireAway = xbox.getBButton();
