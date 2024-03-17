@@ -79,4 +79,8 @@ public class NavSubsystem extends SubsystemBase {
     public static Rotation2d getRotation() {
         return new Rotation2d(getContinuousAngle());
     }
+
+    public void reInitialize() {
+        this.initialized = false;
+    }
 }

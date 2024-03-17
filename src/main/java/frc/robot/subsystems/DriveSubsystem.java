@@ -165,7 +165,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void setDesiredChassisSpeeds(ChassisSpeeds chassis) {
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassis);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(new ChassisSpeeds(chassis.vxMetersPerSecond, chassis.vyMetersPerSecond, chassis.omegaRadiansPerSecond), 0.02);
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(targetSpeeds);
 
         SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.MAX_WHEEL_VELOCITY);
 
@@ -228,5 +229,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void setFieldAlignment(double omega) {
     m_fieldAlignment = new ChassisSpeeds(0.0,0.0,omega);
+  }
+
+  public void zeroNavSubsystem() {
+    navSubsystem.reInitialize();
   }
 }

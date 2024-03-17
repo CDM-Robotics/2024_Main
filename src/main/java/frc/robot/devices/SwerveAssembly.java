@@ -38,10 +38,15 @@ public class SwerveAssembly {
     }
 
     public void initialize() throws MotorSetupException {
-        m_steeringMotor.initialize();
-        m_steeringMotor.setAngle(0.0);
-        m_driveMotor.initialize();
-        m_driveMotor.setVelocity(0.0);
+        try {
+            m_steeringMotor.initialize();
+            m_steeringMotor.setAngle(0.0);
+            m_driveMotor.initialize();
+            m_driveMotor.setVelocity(0.0);
+        } catch (MotorSetupException mse) {
+            System.out.println("MotorSetupException on SwerveAssembly: " + getPrettyName());
+            throw mse;
+        }
     }
 
     public void setState(SwerveModuleState s) {

@@ -59,12 +59,18 @@ public class RobotContainer {
     }
 
     m_DriveSubsystem = new DriveSubsystem(m_navSubsystem);
-    m_DriveSubsystem.initialize();
+    
+    if(m_DriveSubsystem.initialize()) {
+      SmartDashboard.putString("Drive Subsystem", "INITIALIZED OK");
+    } else {
+      SmartDashboard.putString("Drive Subsystem", "!!!FAILED, RESTART CODE OR REBOOT!!!");
+    }
 
     m_DriveController = new DriveController(new DriveAlignToAngle(m_DriveSubsystem));
     m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem, m_ultrasonicSubsystem);
 
     m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
+    m_DriveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d()));
 
     /*if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
       m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 60.0);
@@ -91,7 +97,7 @@ public class RobotContainer {
       armSubsystem.initialize();
       armSubsystem.setPosition(POSITION.NONE);
       engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem, m_conveyorSubsystem);
-      armSubsystem.setDefaultCommand(engineerCommand);
+      
     }
 
 
@@ -99,6 +105,10 @@ public class RobotContainer {
     
     // Get ready for autonomous
     trajectories = new Trajectories(m_DriveSubsystem);
+  }
+
+  public void enableEngineeringCommand() {
+    armSubsystem.setDefaultCommand(engineerCommand);
   }
 
   public static RobotContainer getInstance() {
@@ -115,9 +125,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
   */
   public Command getAutonomousCommand() {
-    //return new GoForwardAndBack(trajectories);
-    m_DriveSubsystem.resetOdometry(new Pose2d(1, 6, new Rotation2d()));
-    return AutoBuilder.followPath(trajectories.simplePath);
+    m_DriveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d()));
+    return new GoForwardAndBack(m_DriveSubsystem, m_gangedSubsystem, trajectories);
+
+    // Save for 2025
+    //m_DriveSubsystem.resetOdometry(new Pose2d(1, 6, new Rotation2d()));
+    //return AutoBuilder.followPath(trajectories.simplePath);
   }
 
   public Command getTestCommand() {

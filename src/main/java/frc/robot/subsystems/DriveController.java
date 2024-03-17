@@ -22,11 +22,13 @@ public class DriveController extends SubsystemBase {
     private DriveAlignToAngle m_driveAlignToAngle;
     private DriverStation.Alliance m_alliance;
     private boolean m_overrideAutoThrottle;
+    private boolean m_reInit;
 
     public DriveController(DriveAlignToAngle driveAlignToAngle) {
         xbox = new XboxController(0);
         m_rotateToSource = false;
         m_overrideAutoThrottle = false;
+        m_reInit = false;
         m_driveAlignToAngle = driveAlignToAngle;
         DriverStation.Alliance m_alliance = null;
 
@@ -86,6 +88,12 @@ public class DriveController extends SubsystemBase {
         } else if(xbox.getBButton()) {
             m_driveAlignToAngle.setAngle(m_speakerAngle);
             m_driveAlignToAngle.schedule();
+        }
+
+        if(xbox.getBackButton()) {
+            this.m_reInit = true;
+        } else {
+            this.m_reInit = false;
         }
 
         y = -xbox.getLeftX();  // +/- 1.0
@@ -166,6 +174,10 @@ public class DriveController extends SubsystemBase {
 
     public boolean overrideAutoThrottle() {
         return true;
+    }
+
+    public boolean wantToZero() {
+        return this.m_reInit;
     }
     
 }

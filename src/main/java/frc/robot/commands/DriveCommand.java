@@ -56,6 +56,10 @@ public class DriveCommand extends Command {
     double throttle;
 
     Rotation2d ang;
+
+    if(m_dc.wantToZero()) {
+      m_driveSubsystem.zeroNavSubsystem();
+    }
     
     angle = m_dc.getDesiredAngle();
 

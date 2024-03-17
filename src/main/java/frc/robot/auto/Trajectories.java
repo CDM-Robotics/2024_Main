@@ -28,8 +28,8 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
 public class Trajectories {
     private DriveSubsystem m_driveSubsystem;
 
-    public Trajectory PullForwardAndBackTrajectory;
-    public Trajectory PullForwardAndBackTrajectory2;
+    public Trajectory PullForwardTrajectory;
+    public Trajectory PullBackToStartTrajectory;
     private int tcount;
 
     public Trajectories(DriveSubsystem driveSubsystem) {
@@ -41,7 +41,8 @@ public class Trajectories {
                 AutoConstants.kSimplePullForwardSpeed,
                 AutoConstants.kSimplePullForwardAccel)
                 // Add kinematics to ensure max speed is actually obeyed
-                .setKinematics(Constants.kDriveKinematics);
+                .setKinematics(Constants.kDriveKinematics)
+                .setReversed(true);
 
         TrajectoryConfig SimplePullForwardConfigReversed =
             new TrajectoryConfig(
@@ -51,16 +52,18 @@ public class Trajectories {
                 .setKinematics(Constants.kDriveKinematics)
                 .setReversed(true);
 
-        PullForwardAndBackTrajectory = TrajectoryGenerator.generateTrajectory(
+        PullForwardTrajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0.0, 0.0, new Rotation2d(0)),
-                List.of(new Translation2d(Units.inchesToMeters(-6.0), Units.inchesToMeters(6.0))),
-                new Pose2d(Units.inchesToMeters(-12.0), 0.0, new Rotation2d(0)),
+                List.of(new Translation2d(Units.inchesToMeters(18.0), Units.inchesToMeters(6.0))),
+                //List.of(),
+                new Pose2d(Units.inchesToMeters(36.0), 0.0, new Rotation2d(Units.degreesToRadians(0.0))),
                 SimplePullForwardConfig);
 
-        PullForwardAndBackTrajectory2 = TrajectoryGenerator.generateTrajectory(
-            new Pose2d(Units.inchesToMeters(-12.0), 0.0, new Rotation2d(0)),
-                List.of(new Translation2d(Units.inchesToMeters(6.0), Units.inchesToMeters(-6.0))),
-                new Pose2d(Units.inchesToMeters(0.0), 0.0, new Rotation2d(0)),
+        PullBackToStartTrajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(Units.inchesToMeters(36.0), 0.0, new Rotation2d(0)),
+                List.of(new Translation2d(Units.inchesToMeters(18.0), Units.inchesToMeters(6.0))),
+                //List.of(),
+                new Pose2d(Units.inchesToMeters(0.0), 0.0, new Rotation2d(Units.degreesToRadians(180.0))),
                 SimplePullForwardConfigReversed);
     }
 

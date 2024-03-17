@@ -19,6 +19,7 @@ public class EngineerCommand extends Command {
     private double reverseVelocity = -3.0; // -3.0 might be ideal
     private double armPercentOut = 0.50;
     private double armPercentIn = -0.20;
+    private boolean gangOverride;
 
     public EngineerCommand(EngineerController engineer, ArmSubsystem armSubsystem, GangedMotorSubsystem gangedSubsystem, ConveyorSubsystem conveyorSubsystem) {
         addRequirements(armSubsystem);
@@ -28,6 +29,10 @@ public class EngineerCommand extends Command {
         m_armSubsystem = armSubsystem;
         m_gangedSubsystem = gangedSubsystem;
         m_conveyorSubsystem = conveyorSubsystem;
+        gangOverride = false;
+
+        SmartDashboard.putNumber("Motor Fire Speed", velocity);
+        SmartDashboard.putNumber("Motor Load Speed", reverseVelocity);
     }
 
     @Override
@@ -36,7 +41,7 @@ public class EngineerCommand extends Command {
         reverseVelocity = SmartDashboard.getNumber("Motor Load Speed", reverseVelocity);
 
         if(m_gangedSubsystem != null) {
-            if(m_engineerController.speakerReadyToFire()) {
+            if(m_engineerController.speakerReadyToFire() || gangOverride) {
                 m_gangedSubsystem.setVelocity(velocity * 1.0); // 35.0
             } else if(m_engineerController.speakerReadyToIntake()) {
                 m_gangedSubsystem.setVelocity(reverseVelocity * 1.0); // -3.0
