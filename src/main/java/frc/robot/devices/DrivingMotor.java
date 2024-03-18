@@ -63,6 +63,7 @@ public class DrivingMotor extends CANSparkFlex {
         desiredFF = 1 / Constants.kDriveWheelFreeSpeedRps;
         desiredOutRangeMin = -1;
         desiredOutRangeMax = 1;
+        desiredIdle = IdleMode.kBrake;
 
         // All doubles shall be +/- 5%
         // All integers shall be exact
@@ -85,6 +86,9 @@ public class DrivingMotor extends CANSparkFlex {
             resetAll = true;
         }
         if((outRangeMin != desiredOutRangeMin) || (outRangeMax != desiredOutRangeMax)) {
+            resetAll = true;
+        }
+        if(idle != desiredIdle) {
             resetAll = true;
         }
 
