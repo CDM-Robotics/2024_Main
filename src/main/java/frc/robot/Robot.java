@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("ALLIANCE", "!!!WARNING, NOT SET!!!");
         }
 
+        SmartDashboard.putNumber("Autonmous Distance (Feet)", 20.0);
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }

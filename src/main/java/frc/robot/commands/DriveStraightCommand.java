@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveController;
 import frc.robot.subsystems.DriveSubsystem;
@@ -58,8 +59,8 @@ public class DriveStraightCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putNumber("Auto Pose X", m_driveSubsystem.getPose().getX());
-    SmartDashboard.putNumber("Desired Auto Pose X", m_distance);
+    SmartDashboard.putNumber("Auto Pose X (Feet)", Units.metersToFeet(m_driveSubsystem.getPose().getX()));
+    SmartDashboard.putNumber("Desired Auto Pose X (Feet)", Units.metersToFeet(m_distance));
     if(m_driveSubsystem.getPose().getX() >= m_distance) {
       m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
       return true;

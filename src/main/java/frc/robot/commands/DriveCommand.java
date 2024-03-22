@@ -65,14 +65,14 @@ public class DriveCommand extends Command {
 
     throttle = m_dc.getDesiredThrottle() * 1.0;
     
-    if(!m_dc.overrideAutoThrottle()) {
+    if(m_dc.overrideAutoThrottle()) {
       if(m_fbsys != null) {
         SmartDashboard.putNumber("Ramp Range", m_fbsys.getLastRampRange());
         SmartDashboard.putNumber("Arm Range", m_fbsys.getLastArmRange());
-        if((m_fbsys.getLastRampRange() > 0.0 && m_fbsys.getLastRampRange() < 1000.0) || 
-           (m_fbsys.getLastArmRange() > 0.0 && m_fbsys.getLastArmRange() < 1000.0)) {
+        //if((m_fbsys.getLastRampRange() > 0.0 && m_fbsys.getLastRampRange() < 1000.0) || 
+        //   (m_fbsys.getLastArmRange() > 0.0 && m_fbsys.getLastArmRange() < 1000.0)) {
           throttle = throttle / Constants.MAX_VELOCITY * Constants.SLOW_VELOCITY;
-        }
+        //}
       } 
     }
 
