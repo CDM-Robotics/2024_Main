@@ -54,13 +54,13 @@ public class Trajectories {
 
         PullForwardTrajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0.0, 0.0, new Rotation2d(0)),
-                List.of(new Translation2d(Units.inchesToMeters(18.0), Units.inchesToMeters(6.0))),
+                List.of(new Translation2d(Units.inchesToMeters(9.0 * 12.0), Units.inchesToMeters(6.0))),
                 //List.of(),
-                new Pose2d(Units.inchesToMeters(36.0), 0.0, new Rotation2d(Units.degreesToRadians(0.0))),
+                new Pose2d(Units.inchesToMeters(18.0 * 12.0), 0.0, new Rotation2d(Units.degreesToRadians(10.0))),
                 SimplePullForwardConfig);
 
         PullBackToStartTrajectory = TrajectoryGenerator.generateTrajectory(
-            new Pose2d(Units.inchesToMeters(36.0), 0.0, new Rotation2d(0)),
+            new Pose2d(Units.inchesToMeters(36.0), 0.0, new Rotation2d(10)),
                 List.of(new Translation2d(Units.inchesToMeters(18.0), Units.inchesToMeters(6.0))),
                 //List.of(),
                 new Pose2d(Units.inchesToMeters(0.0), 0.0, new Rotation2d(Units.degreesToRadians(180.0))),

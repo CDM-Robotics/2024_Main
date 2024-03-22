@@ -150,6 +150,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        m_robotContainer.enableDriveCommand();
         m_robotContainer.enableEngineeringCommand();
         
         if (m_autonomousCommand != null) {

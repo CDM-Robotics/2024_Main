@@ -69,7 +69,7 @@ public class RobotContainer {
     m_DriveController = new DriveController(new DriveAlignToAngle(m_DriveSubsystem));
     m_DriveCommand = new DriveCommand(m_DriveController, m_DriveSubsystem, m_ultrasonicSubsystem);
 
-    m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
+    //m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
     m_DriveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d()));
 
     /*if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
@@ -100,15 +100,16 @@ public class RobotContainer {
       
     }
 
-
-    
-    
     // Get ready for autonomous
     trajectories = new Trajectories(m_DriveSubsystem);
   }
 
   public void enableEngineeringCommand() {
     armSubsystem.setDefaultCommand(engineerCommand);
+  }
+
+  public void enableDriveCommand() {
+    m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
   }
 
   public static RobotContainer getInstance() {

@@ -72,7 +72,7 @@ public class GangedMotorSubsystem extends SubsystemBase {
         
         v2.setVelocity(s);
         counter++;
-        if ((s < 0.0) || (counter >= 50))
+        if ((s < 0.0) || (counter >= 40))
             v1.setVelocity(s);
         if (s == 0) 
             counter = 0;

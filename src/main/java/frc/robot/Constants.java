@@ -99,8 +99,8 @@ public class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kSimplePullForwardSpeed = 0.50;
-        public static final double kSimplePullForwardAccel = 0.50;
+        public static final double kSimplePullForwardSpeed = 1.0;
+        public static final double kSimplePullForwardAccel = 1.0;
         public static final double kPXController = 1.5;
         public static final double kPYController = 1.5;
         public static final double kPThetaController = 2;
