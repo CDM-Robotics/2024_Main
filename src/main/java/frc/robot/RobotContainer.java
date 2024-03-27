@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.auto.FollowSimplePath;
 import frc.robot.auto.GoForwardAndBack;
 import frc.robot.auto.Trajectories;
 import frc.robot.commands.*;
@@ -42,6 +43,9 @@ public class RobotContainer {
   private DriveAlignToAngle m_alignToRampToSource;
   private DriveAlignToAngle m_alignToArmToSource;
 
+  public Command auto_goForwardOnly;
+  public Command auto_simplePath;
+
 
   private RobotContainer() {
 
@@ -72,16 +76,8 @@ public class RobotContainer {
     //m_DriveSubsystem.setDefaultCommand(m_DriveCommand);
     m_DriveSubsystem.resetOdometry(new Pose2d(0, 0, new Rotation2d()));
 
-    /*if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
-      m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 60.0);
-      m_alignToArmToSource = new DriveAlignToAngle(m_DriveSubsystem, 180 + 60.0);
-    } else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-      m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 300.0);
-      m_alignToArmToSource = new DriveAlignToAngle(m_DriveSubsystem, 180.0 - 60.0);
-    } else {
-      m_alignToRampToSource = new DriveAlignToAngle(m_DriveSubsystem, 0.0);
-      m_alignToArmToSource = new DriveAlignToAngle(m_DriveSubsystem, 180.0);
-    }*/
+    // Set up Selectable Autonomous Commands
+
 
     if(Constants.payloadsEnabled) {
       m_gangedSubsystem = new GangedMotorSubsystem(10,11);
@@ -102,10 +98,16 @@ public class RobotContainer {
 
     // Get ready for autonomous
     trajectories = new Trajectories(m_DriveSubsystem);
+
+    // Create the autonomous selections
+    auto_goForwardOnly = new GoForwardAndBack(m_DriveSubsystem, m_gangedSubsystem, trajectories);
+    auto_simplePath = new FollowSimplePath(m_DriveSubsystem, m_gangedSubsystem, trajectories);
   }
 
   public void enableEngineeringCommand() {
-    armSubsystem.setDefaultCommand(engineerCommand);
+    if(Constants.payloadsEnabled) {
+      armSubsystem.setDefaultCommand(engineerCommand);
+    }
   }
 
   public void enableDriveCommand() {

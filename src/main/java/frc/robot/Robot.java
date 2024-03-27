@@ -26,6 +26,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;*/
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     private static final String defaultAuto = "Default";
     private static final String customAuto = "My Auto";
     private int count;
+    private final SendableChooser<Command> m_Chooser = new SendableChooser<Command>();
 
     private Optional<DriverStation.Alliance> alliance;
 
@@ -84,6 +86,13 @@ public class Robot extends TimedRobot {
         } else {
         SmartDashboard.putString("ALLIANCE", "!!!WARNING, NOT SET!!!");
         }
+
+        SmartDashboard.putData("AUTO", m_Chooser);
+
+        m_Chooser.addOption("Go Forward Only", m_robotContainer.auto_goForwardOnly);
+        //m_Chooser.addOption("Simple Path", m_robotContainer.auto_simplePath);
+
+        m_Chooser.setDefaultOption("Simple Path", m_robotContainer.auto_simplePath);
 
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
@@ -123,7 +132,21 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         SmartDashboard.putBoolean("TestMode", false);
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        if(SmartDashboard.getString("ALLIANCE","WARNING").contains("WARNING")) {
+            // Get the alliance information and post it to the SmartDashboard
+            alliance = DriverStation.getAlliance();
+            if(alliance.isPresent()) {
+            SmartDashboard.putString("ALLIANCE", alliance.get().name());
+            SmartDashboard.putStringArray("POSITION", new String[]{"Red 1", "Red 2", "Red 3"});
+            } else {
+            SmartDashboard.putString("ALLIANCE", "!!!WARNING, NOT SET!!!");
+            }
+        }
+        
+        
+        m_autonomousCommand = m_Chooser.getSelected();
+        //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {

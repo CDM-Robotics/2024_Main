@@ -15,8 +15,8 @@ import frc.robot.exceptions.MotorSetupException;
 import frc.robot.Constants;
 
 /** Add your docs here. */
-//public class DrivingMotor extends CANSparkMax {
-public class DrivingMotor extends CANSparkFlex {
+public class DrivingMotor extends CANSparkMax {
+//public class DrivingMotor extends CANSparkFlex {
     private final RelativeEncoder m_drivingEncoder;
     private final SparkPIDController m_drivingPIDController;
 
@@ -65,7 +65,7 @@ public class DrivingMotor extends CANSparkFlex {
         desiredOutRangeMax = 1;
         desiredIdle = IdleMode.kBrake;
 
-        // All doubles shall be +/- 5%
+        // All doubles shall be +/- 5% with the same sign!!!
         // All integers shall be exact
         if((posFactor < (desiredPosFactor * 0.95)) || (posFactor > (desiredPosFactor * 1.05))) {
             resetAll = true;
@@ -92,7 +92,7 @@ public class DrivingMotor extends CANSparkFlex {
             resetAll = true;
         }
 
-        // Be as defensive as possible.  The SparkFex(s) seem to be having problems initializing sometimes
+        // Be as defensive as possible.  The Spark(s) seem to be having problems initializing sometimes
         if(resetAll) {
             restoreFactoryDefaults();
             try {
