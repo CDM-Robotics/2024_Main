@@ -98,6 +98,7 @@ public class DriveStraightCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+<<<<<<< HEAD
     if(m_endPose == null) {
       if(m_driveSubsystem.getPose().getX() >= m_distance) {
         m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
@@ -109,6 +110,13 @@ public class DriveStraightCommand extends Command {
         //m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
         return m_fieldAlignmentComplete;
       }
+=======
+    SmartDashboard.putNumber("Auto Pose X (Feet)", Units.metersToFeet(m_driveSubsystem.getPose().getX()));
+    SmartDashboard.putNumber("Desired Auto Pose X (Feet)", Units.metersToFeet(m_distance));
+    if(m_driveSubsystem.getPose().getX() >= m_distance) {
+      m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
+      return true;
+>>>>>>> 71a04ab9e611131c0e393baa2b989be44e41245f
     }
 
     return false;

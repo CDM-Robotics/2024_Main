@@ -11,11 +11,14 @@ import frc.robot.commands.GangedFireCommand;
 import frc.robot.commands.ResetOdometryCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GangedMotorSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class GoForwardAndBack extends SequentialCommandGroup {
     public GoForwardAndBack(DriveSubsystem driveSubsystem, GangedMotorSubsystem gc, Trajectories trajectories) {
+        double distanceFeet = SmartDashboard.getNumber("Autonmous Distance (Feet)", 20.0);
+
         addCommands(
-            new DriveStraightCommand(driveSubsystem, Units.inchesToMeters(36.0))
+            new DriveStraightCommand(driveSubsystem, Units.inchesToMeters(distanceFeet * 12))
             //new ResetOdometryCommand(driveSubsystem, trajectories.PullForwardTrajectory),
            //trajectories.driveTrajectory(trajectories.PullForwardTrajectory) 
             //new ResetOdometryCommand(driveSubsystem, trajectories.PullBackToStartTrajectory),
