@@ -87,7 +87,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("ALLIANCE", "!!!WARNING, NOT SET!!!");
         }
 
-<<<<<<< HEAD
         SmartDashboard.putData("AUTO", m_Chooser);
 
         m_Chooser.addOption("Go Forward Only", m_robotContainer.auto_goForwardOnly);
@@ -95,9 +94,7 @@ public class Robot extends TimedRobot {
 
         m_Chooser.setDefaultOption("Simple Path", m_robotContainer.auto_simplePath);
 
-=======
         SmartDashboard.putNumber("Autonmous Distance (Feet)", 20.0);
->>>>>>> 71a04ab9e611131c0e393baa2b989be44e41245f
         
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }

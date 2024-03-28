@@ -49,13 +49,12 @@ public class Constants {
     
     public static final int MAX_TALON_CMD_RATE_MSEC = 10;
     public static final double MARGIN_OF_SAFETY = 1.1;
-<<<<<<< HEAD
+
     public static final double MAX_VELOCITY = 0.5; // for the chassis, meters per second
     public static final double SLOW_VELOCITY = 0.25; // for automatically slowing down when approaching a target
-=======
-    public static final double MAX_VELOCITY = 3.0; // for the chassis, meters per second
-    public static final double SLOW_VELOCITY = 0.75; // for automatically slowing down when approaching a target
->>>>>>> 71a04ab9e611131c0e393baa2b989be44e41245f
+
+    //public static final double MAX_VELOCITY = 3.0; // for the chassis, meters per second
+    //public static final double SLOW_VELOCITY = 0.75; // for automatically slowing down when approaching a target
     public static final double MAX_WHEEL_VELOCITY = 3.0; // for any wheel, meters per second
 
     // My Murphy's Robot

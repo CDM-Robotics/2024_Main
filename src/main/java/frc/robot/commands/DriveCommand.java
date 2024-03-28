@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveController;
 import frc.robot.subsystems.DriveSubsystem;
@@ -32,6 +35,8 @@ public class DriveCommand extends Command {
   private FrontBackUltrasonicSubsystem m_fbsys;
   //private MoveToUltrasonicPositionTask forwardStationTask;
 
+  private Pose2d m_testEndPose;
+
   /** Creates a new DriveCommand. */
   public DriveCommand(DriveController dc, DriveSubsystem driveSubsystem, FrontBackUltrasonicSubsystem fbsys) {
     m_dc = dc;
@@ -43,6 +48,8 @@ public class DriveCommand extends Command {
     desiredMovement = new SwerveModuleState(0.0, new Rotation2d(0.0));
     simControl = 0;
     i=0;
+
+    m_testEndPose = new Pose2d(new Translation2d(Units.inchesToMeters(36.0), Units.inchesToMeters(0.0)), new Rotation2d(0.0));
   }
 
   // Called when the command is initially scheduled.
@@ -52,6 +59,18 @@ public class DriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+
+    Pose2d m_currentPose = m_driveSubsystem.getPose();
+    Translation2d currentTranslation = m_currentPose.getTranslation();
+    Translation2d endTranslation = m_testEndPose.getTranslation();
+    Translation2d desiredDifference = endTranslation.minus(currentTranslation);
+    double desiredHeading = Math.atan2(desiredDifference.getY(), desiredDifference.getX());
+    double heading = 360.0 - Units.radiansToDegrees(desiredHeading);
+    SmartDashboard.putNumber("DEBUG Target Heading", (heading >= 360.0) ? heading - 360.0 : heading);
+    SmartDashboard.putNumber("DEBUG Target Distance", Units.metersToInches(endTranslation.getDistance(currentTranslation)));
+
+
     double angle;
     double throttle;
 

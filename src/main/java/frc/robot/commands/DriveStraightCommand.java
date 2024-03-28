@@ -12,6 +12,8 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveController;
 import frc.robot.subsystems.DriveSubsystem;
@@ -34,7 +36,11 @@ public class DriveStraightCommand extends Command {
   private double heading;
   private boolean m_fieldAlignmentComplete;
   static int inited;
-  private final double POSE_THRESHOLD_INCHES = 6.0;
+  private final double POSE_THRESHOLD_INCHES = 1.0;
+  private TrapezoidProfile profile;
+  private TrapezoidProfile.State setPoint;
+  private TrapezoidProfile.State endState;
+  private double m_lastTime;
 
   static {
     inited = 0;
@@ -61,6 +67,7 @@ public class DriveStraightCommand extends Command {
     m_slowVelocity = slowVelocity;
     m_endFieldAngle = endFieldAngle;
     m_fieldAlignmentComplete = false;
+    profile = null;
     
     addRequirements(m_driveSubsystem);
     
@@ -75,10 +82,18 @@ public class DriveStraightCommand extends Command {
     m_initialPose = m_driveSubsystem.getPose();
     initialTranslation = m_initialPose.getTranslation();
     if(m_endPose != null) {
+      m_lastTime = Timer.getFPGATimestamp();
       endTranslation = m_endPose.getTranslation();
       translationDifference = endTranslation.minus(initialTranslation);
       heading = Math.atan2(translationDifference.getY(), translationDifference.getX());
     }
+
+    TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(
+      Constants.MAX_VELOCITY,
+      Constants.MAX_VELOCITY);
+      setPoint = new TrapezoidProfile.State(0, 0);
+      endState = new TrapezoidProfile.State(m_initialPose.getTranslation().getDistance(m_endPose.getTranslation()), 0);
+      profile = new TrapezoidProfile(constraints);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -98,7 +113,6 @@ public class DriveStraightCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-<<<<<<< HEAD
     if(m_endPose == null) {
       if(m_driveSubsystem.getPose().getX() >= m_distance) {
         m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
@@ -107,16 +121,8 @@ public class DriveStraightCommand extends Command {
     } else {
       SmartDashboard.putNumber("Auto Pose Distance", Units.metersToInches(m_currentPose.getTranslation().getDistance(m_endPose.getTranslation())));
       if((m_currentPose.getTranslation().getDistance(m_endPose.getTranslation()) <= Units.inchesToMeters(POSE_THRESHOLD_INCHES))) {
-        //m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
         return m_fieldAlignmentComplete;
       }
-=======
-    SmartDashboard.putNumber("Auto Pose X (Feet)", Units.metersToFeet(m_driveSubsystem.getPose().getX()));
-    SmartDashboard.putNumber("Desired Auto Pose X (Feet)", Units.metersToFeet(m_distance));
-    if(m_driveSubsystem.getPose().getX() >= m_distance) {
-      m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
-      return true;
->>>>>>> 71a04ab9e611131c0e393baa2b989be44e41245f
     }
 
     return false;
@@ -138,29 +144,37 @@ public class DriveStraightCommand extends Command {
   }
 
   private void driveToPose() {
-    double throttle = m_cruiseVelocity;
+    if(profile != null) {
+      double currentTime = Timer.getFPGATimestamp();
+      setPoint = profile.calculate(currentTime - m_lastTime, setPoint, endState);
+      m_lastTime = currentTime;
+    }
+    double throttle = setPoint.velocity;
     Rotation2d ang;
 
     m_currentPose = m_driveSubsystem.getPose();
-    /*Translation2d currentTranslation = m_currentPose.getTranslation();
-    endTranslation = m_endPose.getTranslation();
+    Translation2d currentTranslation = m_currentPose.getTranslation();
+    Translation2d endTranslation = m_endPose.getTranslation();
     Translation2d desiredDifference = endTranslation.minus(currentTranslation);
     double desiredHeading = Math.atan2(desiredDifference.getY(), desiredDifference.getX());
-    SmartDashboard.putNumber("Desired Heading", Units.metersToInches(desiredHeading));*/
+    double heading = 360.0 - Units.radiansToDegrees(desiredHeading);
+    double distanceRemaining = Units.metersToInches(endTranslation.getDistance(currentTranslation));
 
-    ang = new Rotation2d(heading);
-    double distanceRemaining = m_currentPose.getTranslation().getDistance(m_endPose.getTranslation());
+    SmartDashboard.putNumber("Profile Velocity", setPoint.velocity);
+    SmartDashboard.putNumber("AUTO Target Heading", (heading >= 360.0) ? heading - 360.0 : heading);
+    SmartDashboard.putNumber("AUTO Target Distance", distanceRemaining);
+
+
+    ang = new Rotation2d(desiredHeading);
     if(distanceRemaining > Units.inchesToMeters(6) && distanceRemaining < Units.inchesToMeters(12)) {
-      throttle = m_slowVelocity;
-    } else if(distanceRemaining <= Units.inchesToMeters(POSE_THRESHOLD_INCHES)) {
+      throttle = setPoint.velocity;
+    } else if(distanceRemaining <= POSE_THRESHOLD_INCHES) {
       throttle = 0.0;
     }
 
     desiredMovement = new SwerveModuleState(throttle, ang /*new Rotation2d(0.0)*/);
 
-    SmartDashboard.putNumber("DesiredThrottle (m/s)", throttle);
-    SmartDashboard.putNumber("Desired Angle (deg)", ang.getDegrees());
-    SmartDashboard.putNumber("Distance Remaining", Units.metersToInches(distanceRemaining));
+    SmartDashboard.putNumber("AUTO Desired Throttle (m/s)", throttle);
 
     DriveAlignToAngle cmd = new DriveAlignToAngle(m_driveSubsystem, m_endFieldAngle);
     SmartDashboard.putBoolean("Destination Reached", false);
