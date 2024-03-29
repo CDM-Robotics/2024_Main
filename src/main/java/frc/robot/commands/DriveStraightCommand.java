@@ -89,8 +89,8 @@ public class DriveStraightCommand extends Command {
     }
 
     TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(
-      Constants.MAX_VELOCITY,
-      Constants.MAX_VELOCITY);
+      m_cruiseVelocity,
+      m_cruiseVelocity);
       setPoint = new TrapezoidProfile.State(0, 0);
       endState = new TrapezoidProfile.State(m_initialPose.getTranslation().getDistance(m_endPose.getTranslation()), 0);
       profile = new TrapezoidProfile(constraints);
@@ -113,14 +113,21 @@ public class DriveStraightCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    double distanceTraveled;
+
     if(m_endPose == null) {
       if(m_driveSubsystem.getPose().getX() >= m_distance) {
         m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0, 0.0)), 0.0, NavSubsystem.getContinuousAngle());
         return true;
       }
     } else {
-      SmartDashboard.putNumber("Auto Pose Distance", Units.metersToInches(m_currentPose.getTranslation().getDistance(m_endPose.getTranslation())));
-      if((m_currentPose.getTranslation().getDistance(m_endPose.getTranslation()) <= Units.inchesToMeters(POSE_THRESHOLD_INCHES))) {
+      distanceTraveled = m_currentPose.getTranslation().getDistance(m_endPose.getTranslation());
+      SmartDashboard.putNumber("Auto Pose Distance", Units.metersToInches(distanceTraveled));
+      if(((setPoint.velocity < 0.01 && setPoint.velocity > -0.01) && (setPoint.position > (0.75 * distanceTraveled))) | (m_currentPose.getTranslation().getDistance(m_endPose.getTranslation()) <= Units.inchesToMeters(POSE_THRESHOLD_INCHES))) {
+        if(m_fieldAlignmentComplete) {
+          m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0)), 0.0, 
+            NavSubsystem.getContinuousAngle());;
+        }
         return m_fieldAlignmentComplete;
       }
     }

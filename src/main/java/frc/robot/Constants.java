@@ -58,14 +58,14 @@ public class Constants {
     public static final double MAX_WHEEL_VELOCITY = 3.0; // for any wheel, meters per second
 
     // My Murphy's Robot
-    public static final boolean payloadsEnabled = false;
-    public static final double WHEEL_OFFSET_X = 12.0 * 0.0254; // converted to meters
-    public static final double WHEEL_OFFSET_Y = 12.0 * 0.0254; // converted to meters
+    //public static final boolean payloadsEnabled = false;
+    //public static final double WHEEL_OFFSET_X = 12.0 * 0.0254; // converted to meters
+    //public static final double WHEEL_OFFSET_Y = 12.0 * 0.0254; // converted to meters
 
     // TEAM 6072's Robot
-    //public static final boolean payloadsEnabled = true;
-    //public static final double WHEEL_OFFSET_X = 12.75 * 0.0254; // converted to meters
-    //public static final double WHEEL_OFFSET_Y = 12.75 * 0.0254; // converted to meters
+    public static final boolean payloadsEnabled = true;
+    public static final double WHEEL_OFFSET_X = 12.75 * 0.0254; // converted to meters
+    public static final double WHEEL_OFFSET_Y = 12.75 * 0.0254; // converted to meters
 
     public static final double FRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
     public static final double FRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
@@ -76,7 +76,7 @@ public class Constants {
     // This changes the drive speed of the module (a pinion gear with more teeth will result in a
     // robot that drives faster).
     public static final int kDrivingMotorPinionTeeth = 13;
-    public static final double kWheelDiameterMeters = 0.0762;
+    public static final double kWheelDiameterMeters = /*0.0762*/ 0.0734;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
     public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
