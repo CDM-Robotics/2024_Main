@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -64,7 +65,11 @@ public class ArmSubsystem extends SubsystemBase  {
         double desiredMinAngle, desiredMaxAngle;
         double currentAngle;
 
-        desiredPosition = m_engineerController.getDesiredPosition();
+        if(!DriverStation.isAutonomous()) {
+            desiredPosition = m_engineerController.getDesiredPosition();
+        } else {
+            desiredPosition = lastCommandedPosition;
+        }
         currentAngle = positionMotor.getAngle();
 
         SmartDashboard.putNumber("SnowBlower Angle", currentAngle);

@@ -96,7 +96,7 @@ public class RobotContainer {
       armSubsystem.initialize();
       armSubsystem.setPosition(POSITION.NONE);
       engineerCommand = new EngineerCommand(m_engineerController, armSubsystem, m_gangedSubsystem, m_conveyorSubsystem);
-      
+      enableEngineeringCommand();
     }
 
     // Get ready for autonomous
@@ -105,8 +105,8 @@ public class RobotContainer {
     // Create the autonomous selections
     auto_goForwardOnly = new GoForwardAndBack(m_DriveSubsystem, m_gangedSubsystem, trajectories);
     auto_simplePath = new FollowSimplePath(m_DriveSubsystem, m_gangedSubsystem, trajectories);
-    auto_ampScore = new AMPScore(false, m_DriveSubsystem, m_gangedSubsystem, trajectories);
-    auto_ampScoreInverted = new AMPScore(true, m_DriveSubsystem, m_gangedSubsystem, trajectories);
+    auto_ampScore = new AMPScore(false, m_DriveSubsystem, armSubsystem, engineerCommand, m_gangedSubsystem, trajectories);
+    auto_ampScoreInverted = new AMPScore(true, m_DriveSubsystem, armSubsystem, engineerCommand, m_gangedSubsystem, trajectories);
   }
 
   public void enableEngineeringCommand() {

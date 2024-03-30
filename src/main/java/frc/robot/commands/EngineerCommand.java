@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.devices.SnowBlower;
@@ -50,8 +51,10 @@ public class EngineerCommand extends Command {
             }
         }
 
-        if(m_armSubsystem != null) {
-            m_armSubsystem.setPosition(m_engineerController.getDesiredPosition());
+        if(!DriverStation.isAutonomous()) {
+            if(m_armSubsystem != null) {
+                m_armSubsystem.setPosition(m_engineerController.getDesiredPosition());
+            }
         }
 
         if(m_conveyorSubsystem != null) {
