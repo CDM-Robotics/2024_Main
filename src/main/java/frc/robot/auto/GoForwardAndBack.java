@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class GoForwardAndBack extends SequentialCommandGroup {
     public GoForwardAndBack(DriveSubsystem driveSubsystem, GangedMotorSubsystem gc, Trajectories trajectories) {
+        this.setName("Go Forward, Go Back");
+
         double distanceFeet = SmartDashboard.getNumber("Autonmous Distance (Feet)", 20.0);
 
         addCommands(

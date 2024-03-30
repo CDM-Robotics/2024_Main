@@ -41,6 +41,8 @@ public class DriveStraightCommand extends Command {
   private TrapezoidProfile.State setPoint;
   private TrapezoidProfile.State endState;
   private double m_lastTime;
+  private String m_title;
+  private double m_initialTime;
 
   static {
     inited = 0;
@@ -53,14 +55,16 @@ public class DriveStraightCommand extends Command {
     m_currentPose = null;
     m_endPose = null;
     m_fieldAlignmentComplete = false;
+    m_title = null;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveSubsystem);
   }
 
-  public DriveStraightCommand(DriveSubsystem driveSubsystem, Pose2d endPose, double cruiseVelocity, double slowVelocity, double endFieldAngle) {
+  public DriveStraightCommand(String title, DriveSubsystem driveSubsystem, Pose2d endPose, double cruiseVelocity, double slowVelocity, double endFieldAngle) {
+    m_title = title;
+    m_initialTime = Timer.getFPGATimestamp();
     m_driveSubsystem = driveSubsystem;
-
     m_endPose = endPose;
     m_distance = 0.0;
     m_cruiseVelocity = cruiseVelocity;
@@ -70,7 +74,6 @@ public class DriveStraightCommand extends Command {
     profile = null;
     
     addRequirements(m_driveSubsystem);
-    
   }
 
   // Called when the command is initially scheduled.
@@ -78,6 +81,7 @@ public class DriveStraightCommand extends Command {
   public void initialize() {
     DriveStraightCommand.inited++;
     SmartDashboard.putNumber(("Drive Straight Inited"), inited);
+    SmartDashboard.putNumber(m_title + " Drive Time", 0.0);
     m_currentPose = m_driveSubsystem.getPose();
     m_initialPose = m_driveSubsystem.getPose();
     initialTranslation = m_initialPose.getTranslation();
@@ -125,6 +129,7 @@ public class DriveStraightCommand extends Command {
       SmartDashboard.putNumber("Auto Pose Distance", Units.metersToInches(distanceTraveled));
       if(((setPoint.velocity < 0.01 && setPoint.velocity > -0.01) && (setPoint.position > (0.75 * distanceTraveled))) | (m_currentPose.getTranslation().getDistance(m_endPose.getTranslation()) <= Units.inchesToMeters(POSE_THRESHOLD_INCHES))) {
         if(m_fieldAlignmentComplete) {
+          SmartDashboard.putNumber(m_title + " Drive Time", m_lastTime - m_initialTime);
           m_driveSubsystem.setDesiredSwerveState(new SwerveModuleState(0.0, new Rotation2d(0.0)), 0.0, 
             NavSubsystem.getContinuousAngle());;
         }

@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.auto.AMPScore;
 
 import java.util.Optional;
 
@@ -91,8 +92,9 @@ public class Robot extends TimedRobot {
 
         m_Chooser.addOption("Go Forward Only", m_robotContainer.auto_goForwardOnly);
         //m_Chooser.addOption("Simple Path", m_robotContainer.auto_simplePath);
+        m_Chooser.setDefaultOption("AMP Score", m_robotContainer.auto_ampScore);
 
-        m_Chooser.setDefaultOption("Simple Path", m_robotContainer.auto_simplePath);
+        m_Chooser.addOption("Simple Path", m_robotContainer.auto_simplePath);
 
         SmartDashboard.putNumber("Autonmous Distance (Feet)", 20.0);
         
@@ -147,6 +149,15 @@ public class Robot extends TimedRobot {
         
         
         m_autonomousCommand = m_Chooser.getSelected();
+        if((alliance.isPresent()) && (alliance.get().name().compareToIgnoreCase("RED") == 0)) {
+            if(m_autonomousCommand.getName().compareTo("BLUE AMP Score") == 0) {
+                m_autonomousCommand = m_robotContainer.auto_ampScoreInverted;
+            }
+        }
+
+        if(!alliance.isPresent()) {
+            m_autonomousCommand = null;
+        }
         //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
