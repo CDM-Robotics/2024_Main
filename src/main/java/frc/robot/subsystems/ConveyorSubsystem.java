@@ -24,13 +24,16 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 /** Add your docs here. */
 public class ConveyorSubsystem extends SubsystemBase {
     private PercentMotor v1;
+    private double m_desiredVelocity;
     
     public ConveyorSubsystem(int canID1) {
         v1 = new PercentMotor(canID1, 1.5 * 0.0254, 1.0);
+        m_desiredVelocity = 0.0;
     }
 
     @Override
     public void periodic() {
+        v1.set(m_desiredVelocity);
     }
 
     @Override
@@ -52,6 +55,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     }
 
     public void setVelocity(double s) {
-        v1.setPercent(s);
+        m_desiredVelocity = s;
+    //    v1.setPercent(s);
     }
 }

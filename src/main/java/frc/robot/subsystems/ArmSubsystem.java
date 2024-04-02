@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -47,6 +48,9 @@ public class ArmSubsystem extends SubsystemBase  {
 
         desiredMinAngle = Constants.SNOW_BLOWER_START_ANGLE - 10.0;
         desiredMaxAngle = Constants.SNOW_BLOWER_START_ANGLE + 10.0;
+        if(RobotBase.isSimulation()) {
+            currentAngle = (desiredMaxAngle + desiredMinAngle) / 2.0;
+        }
         if(currentAngle < desiredMinAngle) {
             positionMotor.turnMotor(.2);
         } else if(currentAngle > desiredMaxAngle) {
@@ -78,6 +82,9 @@ public class ArmSubsystem extends SubsystemBase  {
             case AMP:
                 desiredMinAngle = Constants.SNOW_BLOWER_AMP_ANGLE - 10.0;
                 desiredMaxAngle = Constants.SNOW_BLOWER_AMP_ANGLE + 10.0;
+                if(RobotBase.isSimulation()) {
+                    currentAngle = (desiredMaxAngle + desiredMinAngle) / 2.0;
+                }
                 if(currentAngle < desiredMinAngle) {
                     positionMotor.turnMotor(.2);
                 } else if(currentAngle > desiredMaxAngle) {
@@ -90,6 +97,9 @@ public class ArmSubsystem extends SubsystemBase  {
             case SOURCE:
                 desiredMinAngle = Constants.SNOW_BLOWER_SOURCE_ANGLE - 10.0;
                 desiredMaxAngle = Constants.SNOW_BLOWER_SOURCE_ANGLE + 10.0;
+                if(RobotBase.isSimulation()) {
+                    currentAngle = (desiredMaxAngle + desiredMinAngle) / 2.0;
+                }
                 if(currentAngle < desiredMinAngle) {
                     positionMotor.turnMotor(.2);
                 } else if(currentAngle > desiredMaxAngle) {

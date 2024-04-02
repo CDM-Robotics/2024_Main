@@ -55,17 +55,17 @@ public class EngineerCommand extends Command {
             if(m_armSubsystem != null) {
                 m_armSubsystem.setPosition(m_engineerController.getDesiredPosition());
             }
-        }
 
-        if(m_conveyorSubsystem != null) {
-            if(m_engineerController.isArmActionReady()) {
-                if(m_armSubsystem.getPosition() == POSITION.AMP) {
-                    m_conveyorSubsystem.setVelocity(armPercentOut);
-                } else if(m_armSubsystem.getPosition() == POSITION.SOURCE) {
-                    m_conveyorSubsystem.setVelocity(armPercentIn);
+            if(m_conveyorSubsystem != null) {
+                if(m_engineerController.isArmActionReady()) {
+                    if(m_armSubsystem.getPosition() == POSITION.AMP) {
+                        m_conveyorSubsystem.setVelocity(armPercentOut);
+                    } else if(m_armSubsystem.getPosition() == POSITION.SOURCE) {
+                        m_conveyorSubsystem.setVelocity(armPercentIn);
+                    }
+                } else {
+                    m_conveyorSubsystem.setVelocity(0.0);
                 }
-            } else {
-                m_conveyorSubsystem.setVelocity(0.0);
             }
         }
     }

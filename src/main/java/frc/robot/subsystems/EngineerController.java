@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class EngineerController extends SubsystemBase {
@@ -12,7 +14,11 @@ public class EngineerController extends SubsystemBase {
     private boolean armActionReady;
 
     public EngineerController() {
-        xbox = new XboxController(1);
+        if(RobotBase.isReal()) {
+            xbox = new XboxController(1);
+        } else {
+            xbox = new XboxController(0);
+        }
         pos = POSITION.NONE;
         armActionReady = false;
     }

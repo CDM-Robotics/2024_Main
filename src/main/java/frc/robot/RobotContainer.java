@@ -105,8 +105,8 @@ public class RobotContainer {
     // Create the autonomous selections
     auto_goForwardOnly = new GoForwardAndBack(m_DriveSubsystem, m_gangedSubsystem, trajectories);
     auto_simplePath = new FollowSimplePath(m_DriveSubsystem, m_gangedSubsystem, trajectories);
-    auto_ampScore = new AMPScore(false, m_DriveSubsystem, armSubsystem, engineerCommand, m_gangedSubsystem, trajectories);
-    auto_ampScoreInverted = new AMPScore(true, m_DriveSubsystem, armSubsystem, engineerCommand, m_gangedSubsystem, trajectories);
+    auto_ampScore = new AMPScore(false, m_DriveSubsystem, armSubsystem, m_conveyorSubsystem, engineerCommand, m_gangedSubsystem, trajectories);
+    auto_ampScoreInverted = new AMPScore(true, m_DriveSubsystem, armSubsystem, m_conveyorSubsystem, engineerCommand, m_gangedSubsystem, trajectories);
   }
 
   public void enableEngineeringCommand() {

@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveController;
@@ -125,6 +126,11 @@ public class DriveStraightCommand extends Command {
         return true;
       }
     } else {
+      if(RobotBase.isSimulation()) {
+        m_endPose.rotateBy(new Rotation2d(Units.degreesToRadians(m_endFieldAngle)));
+        m_driveSubsystem.resetOdometry(m_endPose);
+        return true;
+      }
       distanceTraveled = m_currentPose.getTranslation().getDistance(m_endPose.getTranslation());
       SmartDashboard.putNumber("Auto Pose Distance", Units.metersToInches(distanceTraveled));
       if(((setPoint.velocity < 0.01 && setPoint.velocity > -0.01) && (setPoint.position > (0.75 * distanceTraveled))) | (m_currentPose.getTranslation().getDistance(m_endPose.getTranslation()) <= Units.inchesToMeters(POSE_THRESHOLD_INCHES))) {
