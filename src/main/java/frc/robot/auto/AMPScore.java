@@ -45,7 +45,7 @@ public class AMPScore extends SequentialCommandGroup {
             armSubsystem);
         InstantCommand startShoot = new InstantCommand(() -> {
                 SmartDashboard.putString("AMP Score Instant CMD", "Start Shoot");
-                conveyor.setVelocity(0.5);
+                conveyor.setVelocity(0.75);
             }, 
             conveyor);
         InstantCommand stopShoot = new InstantCommand(() -> {
@@ -55,13 +55,13 @@ public class AMPScore extends SequentialCommandGroup {
             conveyor);
 //        doit.addRequirements(armSubsystem);
         addCommands(
+            new ParallelCommandGroup(
             new DriveStraightCommand("AMP Score Midpoint", driveSubsystem, firstPose, 1.5, Constants.SLOW_VELOCITY, endAngle),
-            setArmPosition,
+            setArmPosition),
             new DriveStraightCommand("AMP Score at AMP", driveSubsystem, secondPose, 1.5, Constants.SLOW_VELOCITY, endAngle),
             new ParallelDeadlineGroup(new WaitCommand(1.5), startShoot),
-            new ParallelCommandGroup(new WaitCommand(0.25), stopShoot)
-            /*,
-            new DriveStraightCommand("AMP Score Drive Out", driveSubsystem, thirdPose, Constants.MAX_VELOCITY, Constants.SLOW_VELOCITY, 0.0)*/
+            new ParallelCommandGroup(new WaitCommand(0.25), stopShoot),
+            new DriveStraightCommand("AMP Score Drive Out", driveSubsystem, thirdPose, Constants.MAX_VELOCITY, Constants.SLOW_VELOCITY, 0.0)
         );
     }
 }

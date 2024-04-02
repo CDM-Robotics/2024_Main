@@ -45,6 +45,10 @@ public class DriveStraightCommand extends Command {
   private String m_title;
   private double m_initialTime;
 
+  private boolean m_tweak_xy;
+  private double mx_tweak;
+  private double my_tweak;
+
   static {
     inited = 0;
   }
@@ -57,6 +61,7 @@ public class DriveStraightCommand extends Command {
     m_endPose = null;
     m_fieldAlignmentComplete = false;
     m_title = null;
+    m_tweak_xy = false;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveSubsystem);
@@ -73,8 +78,20 @@ public class DriveStraightCommand extends Command {
     m_endFieldAngle = endFieldAngle;
     m_fieldAlignmentComplete = false;
     profile = null;
+    m_tweak_xy = false;
+    mx_tweak = 0.0;
+    my_tweak = 0.0;
     
     addRequirements(m_driveSubsystem);
+  }
+
+  public DriveStraightCommand(String title, DriveSubsystem driveSubsystem, Pose2d endPose, double cruiseVelocity, double slowVelocity, double endFieldAngle, double xtweak, double ytweak) {
+    this(title, driveSubsystem, endPose, cruiseVelocity, slowVelocity, endFieldAngle);
+    m_tweak_xy = true;
+    mx_tweak = xtweak;
+    my_tweak = ytweak;
+    SmartDashboard.putNumber(m_title + "(X Tweak inches)", 0.0);
+    SmartDashboard.putNumber(m_title + "(Y Tweak inches)", 0.0);
   }
 
   // Called when the command is initially scheduled.
@@ -83,10 +100,14 @@ public class DriveStraightCommand extends Command {
     DriveStraightCommand.inited++;
     SmartDashboard.putNumber(("Drive Straight Inited"), inited);
     SmartDashboard.putNumber(m_title + " Drive Time", 0.0);
+    mx_tweak = SmartDashboard.getNumber(m_title + "(X Tweak inches)", 0.0);
+    my_tweak = SmartDashboard.getNumber(m_title + "(Y Tweak inches)", 0.0);
+
     m_currentPose = m_driveSubsystem.getPose();
     m_initialPose = m_driveSubsystem.getPose();
     initialTranslation = m_initialPose.getTranslation();
     if(m_endPose != null) {
+      m_endPose = m_endPose.plus(new Transform2d(Units.inchesToMeters(mx_tweak), Units.inchesToMeters(my_tweak), new Rotation2d()));
       m_lastTime = Timer.getFPGATimestamp();
       endTranslation = m_endPose.getTranslation();
       translationDifference = endTranslation.minus(initialTranslation);
