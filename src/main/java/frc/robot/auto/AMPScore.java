@@ -37,7 +37,7 @@ public class AMPScore extends SequentialCommandGroup {
 
         Pose2d firstPose = new Pose2d(new Translation2d(Units.inchesToMeters((72.5 - 17.5) / 2.0), Units.inchesToMeters(invert * (63.5 - 35.0) / 2.0)), new Rotation2d(0.0));
         Pose2d secondPose = new Pose2d(new Translation2d(Units.inchesToMeters((72.5 - 17.5)), Units.inchesToMeters(invert * (63.5 - 35.0))), new Rotation2d(0.0));
-        Pose2d thirdPose = new Pose2d(new Translation2d(Units.inchesToMeters(21.0 * 12.0), Units.inchesToMeters(invert * (63.5 - 35.0 - 6.0))), new Rotation2d(0.0));
+        Pose2d thirdPose = new Pose2d(new Translation2d(Units.inchesToMeters(22.0 * 12.0), Units.inchesToMeters(invert * (63.5 - 35.0 - 6.0))), new Rotation2d(0.0));
         InstantCommand setArmPosition = new InstantCommand(() -> {
                 SmartDashboard.putString("AMP Score Instant CMD", "Set ARM Position");
                 armSubsystem.setPosition(POSITION.AMP);
