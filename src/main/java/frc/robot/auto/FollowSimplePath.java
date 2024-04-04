@@ -20,16 +20,17 @@ import frc.robot.subsystems.GangedMotorSubsystem;
 
 public class FollowSimplePath extends SequentialCommandGroup {
     public FollowSimplePath(DriveSubsystem driveSubsystem, GangedMotorSubsystem gc, Trajectories trajectories) {
-        this.setName("Simple Path");
+        this.setName("Do Nothing");
 
         Pose2d firstPose = new Pose2d(new Translation2d(Units.inchesToMeters(3.0 * 12), Units.inchesToMeters(0.0)), new Rotation2d(0.0));
         Pose2d secondPose = new Pose2d(new Translation2d(Units.inchesToMeters(3.0 * 12), Units.inchesToMeters(-12.0)), new Rotation2d(0.0));
         Pose2d thirdPose = new Pose2d(new Translation2d(Units.inchesToMeters(0), Units.inchesToMeters(0.0)), new Rotation2d(0.0));
         
-        addCommands(
+        addCommands(new WaitCommand(3.0));
+        /*addCommands(
             new DriveStraightCommand("Simple Forward 180", driveSubsystem, firstPose, Constants.MAX_VELOCITY, Constants.SLOW_VELOCITY, 180.0),
             new DriveStraightCommand("Simple Sideways", driveSubsystem, secondPose, Constants.MAX_VELOCITY, Constants.SLOW_VELOCITY, 180.0),
             new DriveStraightCommand("Simple Back Home", driveSubsystem, thirdPose, Constants.MAX_VELOCITY, Constants.SLOW_VELOCITY, 180.0)
-            );
+            );*/
     }
 }

@@ -92,9 +92,9 @@ public class Robot extends TimedRobot {
 
         m_Chooser.addOption("Go Forward Only", m_robotContainer.auto_goForwardOnly);
         //m_Chooser.addOption("Simple Path", m_robotContainer.auto_simplePath);
-        m_Chooser.setDefaultOption("AMP Score", m_robotContainer.auto_ampScore);
+        m_Chooser.addOption("AMP Score", m_robotContainer.auto_ampScore);
 
-        m_Chooser.addOption("Simple Path", m_robotContainer.auto_simplePath);
+        m_Chooser.setDefaultOption("Do Nothing", m_robotContainer.auto_simplePath);
 
         SmartDashboard.putNumber("Autonmous Distance (Feet)", 20.0);
         

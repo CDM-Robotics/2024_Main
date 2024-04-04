@@ -112,14 +112,14 @@ public class DriveStraightCommand extends Command {
       endTranslation = m_endPose.getTranslation();
       translationDifference = endTranslation.minus(initialTranslation);
       heading = Math.atan2(translationDifference.getY(), translationDifference.getX());
-    }
 
-    TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(
+      TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(
       m_cruiseVelocity,
       m_cruiseVelocity);
       setPoint = new TrapezoidProfile.State(0, 0);
       endState = new TrapezoidProfile.State(m_initialPose.getTranslation().getDistance(m_endPose.getTranslation()), 0);
       profile = new TrapezoidProfile(constraints);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
