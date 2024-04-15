@@ -17,6 +17,7 @@ public class NavSubsystem extends SubsystemBase {
     static double offsetAngle;
     private int updating;
     static double localAngle;
+    private int debugNavReconnectCnt;
 
     {
         rawAngle = 0.0;
@@ -29,15 +30,23 @@ public class NavSubsystem extends SubsystemBase {
         this.navx.init();
         initialized = false;
         updating = 0;
+        debugNavReconnectCnt = 0;
     }
 
     @Override
     public void periodic() {
         double angle;
+
+        debugNavReconnectCnt++;
         if (DriverStation.isDisabled()) {
             angle = this.navx.getContinuousAngle();
             NavSubsystem.setRawAngle(angle);
             //Logger.getInstance().recordOutput("Raw Angle", getRawAngle());
+        }
+
+        if(debugNavReconnectCnt%50 == 0) {
+            SmartDashboard.putNumber("NAV Reconnects", this.navx.getReconnectCount());
+            debugNavReconnectCnt = debugNavReconnectCnt%50;
         }
     }
 
